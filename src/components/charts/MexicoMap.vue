@@ -3,9 +3,9 @@
 </template>
 
 <style scoped>
-#MexicoMap{
-    width: 100%;
-    height: 900px !important;
+#MexicoMap {
+  width: 100%;
+  height: 900px !important;
 }
 </style>
 
@@ -13,12 +13,15 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
+import am4lang_es_ES from "@amcharts/amcharts4/lang/es_ES";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
-import am4geodata_usaLow from "@amcharts/amcharts4-geodata/mexicoLow";
-import covid_us_timeline from "@/json/us_timeline.json";
-import covid_us_total_timeline from "@/json/us_total_timeline.json";
+import am4geodata_mexicoLow from "@amcharts/amcharts4-geodata/mexicoLow";
+import covid_mx_timeline from "@/json/mx_timeline.json";
+import covid_mx_total_timeline from "@/json/mx_total_timeline.json";
+
+import sourceData from "@/json/Mexico_COVID19.json";
 
 export default {
   name: "MexicoMap",
@@ -28,59 +31,43 @@ export default {
     //   am4charts.Container
     // );
 
+    // console.log(this.convertSourceDataTotals());
+    // console.log(this.convertSourceData());
+    //  this.convertSourceData();
+
     var populations = {
-      "US-AL": 4887871,
-      "US-AK": 737438,
-      "US-AZ": 7171646,
-      "US-AR": 3013825,
-      "US-CA": 39557045,
-      "US-CO": 5695564,
-      "US-CT": 3572665,
-      "US-DE": 967171,
-      "US-DC": 702455,
-      "US-FL": 21299325,
-      "US-GA": 10519475,
-      "US-HI": 1420491,
-      "US-ID": 1754208,
-      "US-IL": 12741080,
-      "US-IN": 6691878,
-      "US-IA": 3156145,
-      "US-KS": 2911505,
-      "US-KY": 4468402,
-      "US-LA": 4659978,
-      "US-ME": 1338404,
-      "US-MD": 6042718,
-      "US-MA": 6902149,
-      "US-MI": 9995915,
-      "US-MN": 5611179,
-      "US-MS": 2986530,
-      "US-MO": 6126452,
-      "US-MT": 1062305,
-      "US-NE": 1929268,
-      "US-NV": 3034392,
-      "US-NH": 1356458,
-      "US-NJ": 8908520,
-      "US-NM": 2095428,
-      "US-NY": 19542209,
-      "US-NC": 10383620,
-      "US-ND": 760077,
-      "US-OH": 11689442,
-      "US-OK": 3943079,
-      "US-OR": 4190713,
-      "US-PA": 12807060,
-      "US-RI": 1057315,
-      "US-SC": 5084127,
-      "US-SD": 882235,
-      "US-TN": 6770010,
-      "US-TX": 28701845,
-      "US-UT": 3161105,
-      "US-VT": 626299,
-      "US-VA": 8517685,
-      "US-WA": 7535591,
-      "US-WV": 1805832,
-      "US-WI": 5813568,
-      "US-WY": 577737,
-      "US-PR": 3195153,
+      "MX-AGU": 1316032,
+      "MX-BCN": 3348898,
+      "MX-BCS": 718384,
+      "MX-CAM": 902250,
+      "MX-CHP": 5228711,
+      "MX-CHH": 3569479,
+      "MX-CMX": 8985339,
+      "MX-COA": 2961708,
+      "MX-COL": 715095,
+      "MX-DUR": 1759848,
+      "MX-GUA": 5865777,
+      "MX-GRO": 3352204,
+      "MX-HID": 2862970,
+      "MX-JAL": 7880539,
+      "MX-MIC": 4599104,
+      "MX-MOR": 1912211,
+      "MX-MEX": 16225409,
+      "MX-NAY": 1188671,
+      "MX-NLE": 5131938,
+      "MX-OAX": 3976297,
+      "MX-PUE": 6183320,
+      "MX-QUE": 2043851,
+      "MX-ROO": 1505785,
+      "MX-SLP": 2723772,
+      "MX-SIN": 2977104,
+      "MX-SON": 2874391,
+      "MX-TAB": 2400967,
+      "MX-TAM": 3453525,
+      "MX-TLA": 1274227,
+      "MX-VER": 8127832,
+      "MX-YUC": 2102359,
+      "MX-ZAC": 1581575
     };
 
     var numberFormatter = new am4core.NumberFormatter();
@@ -99,11 +86,11 @@ export default {
     var activeCountryColor = am4core.color("#0f0f0f");
 
     var currentIndex;
-    var currentCountry = "United States (Total)";
+    var currentCountry = "México (Total)";
 
     // last date of the data
     var lastDate = new Date(
-      covid_us_total_timeline[covid_us_total_timeline.length - 1].date
+      covid_mx_total_timeline[covid_mx_total_timeline.length - 1].date
     );
     var currentDate = lastDate;
 
@@ -125,7 +112,7 @@ export default {
 
     // make a map of country indexes for later use
     var countryIndexMap = {};
-    var list = covid_us_timeline[covid_us_timeline.length - 1].list;
+    var list = covid_mx_timeline[covid_mx_timeline.length - 1].list;
     for (var i = 0; i < list.length; i++) {
       var country = list[i];
       countryIndexMap[country.id] = i;
@@ -135,10 +122,10 @@ export default {
     // if index is not set, get last slide
     function getSlideData(index) {
       if (index == undefined) {
-        index = covid_us_timeline.length - 1;
+        index = covid_mx_timeline.length - 1;
       }
 
-      var data = covid_us_timeline[index];
+      var data = covid_mx_timeline[index];
 
       return data;
     }
@@ -157,7 +144,7 @@ export default {
     }
 
     var max = { confirmed: 0, deaths: 0 };
-    var maxPC = { confirmed: 0, deaths: 0 };
+    //var maxPC = { confirmed: 0, deaths: 0 };
 
     // the last day will have most
     for (var i3 = 0; i3 < mapData.length; i3++) {
@@ -178,10 +165,7 @@ export default {
 
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
-    let container = am4core.create(
-      this.$refs.MexicoMapDiv,
-      am4core.Container
-    );
+    let container = am4core.create(this.$refs.MexicoMapDiv, am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
     container.fontSize = "0.9em";
@@ -193,13 +177,15 @@ export default {
     container.tooltip.getFillFromObject = false;
     container.tooltip.getStrokeFromObject = false;
 
+    container.language.locale = am4lang_es_ES;
+
     // MAP CHART
     // https://www.amcharts.com/docs/v4/chart-types/map/
     var mapChart = container.createChild(am4maps.MapChart);
-    mapChart.height = am4core.percent(60);
+    mapChart.height = am4core.percent(70);
     mapChart.zoomControl = new am4maps.ZoomControl();
     mapChart.zoomControl.align = "right";
-    mapChart.zoomControl.marginRight = 15;
+    mapChart.zoomControl.marginRight = 10;
     mapChart.zoomControl.valign = "middle";
 
     // by default minus button zooms out by one step, but we modify the behavior so when user clicks on minus, the map would fully zoom-out and show world data
@@ -213,7 +199,7 @@ export default {
 
     // https://www.amcharts.com/docs/v4/chart-types/map/#Map_data
     // you can use more accurate world map or map of any other country - a wide selection of maps available at: https://github.com/amcharts/amcharts4-geodata
-    mapChart.geodata = am4geodata_usaLow;
+    mapChart.geodata = am4geodata_mexicoLow;
 
     // Set projection
     // https://www.amcharts.com/docs/v4/chart-types/map/#Setting_projection
@@ -251,7 +237,7 @@ export default {
       property: "fill",
       min: countryColor,
       max: countryColor,
-      dataField: "value",
+      dataField: "value"
     });
 
     // you can have pacific - centered map if you set this to -154.8
@@ -318,12 +304,12 @@ export default {
       property: "radius",
       min: 3,
       max: 30,
-      dataField: "value",
+      dataField: "value"
     });
 
     // when data items validated, hide 0 value bubbles (because min size is set)
     bubbleSeries.events.on("dataitemsvalidated", function() {
-      bubbleSeries.dataItems.each((dataItem) => {
+      bubbleSeries.dataItems.each(dataItem => {
         var mapImage = dataItem.mapImage;
         var circle = mapImage.children.getIndex(0);
         if (mapImage.dataItem.value == 0) {
@@ -360,24 +346,24 @@ export default {
     // END OF MAP
 
     // top title
-    var title = mapChart.titles.create();
-    title.fontSize = "1.5em";
-    title.text = "COVID-19 U.S. Spread Data";
-    title.align = "left";
-    title.horizontalCenter = "left";
-    title.marginLeft = 20;
-    title.paddingBottom = 10;
-    title.fill = am4core.color("#ffffff");
-    title.y = 20;
+    // var title = mapChart.titles.create();
+    // title.fontSize = "1.5em";
+    // title.text = "COVID-19 México Spread Data";
+    // title.align = "left";
+    // title.horizontalCenter = "left";
+    // title.marginLeft = 20;
+    // title.paddingBottom = 10;
+    // title.fill = am4core.color("#ffffff");
+    // title.y = 20;
 
     // switch between map and globe
     var absolutePerCapitaSwitch = mapChart.createChild(am4core.SwitchButton);
     absolutePerCapitaSwitch.align = "center";
     absolutePerCapitaSwitch.y = 15;
-    absolutePerCapitaSwitch.leftLabel.text = "Absolute";
+    absolutePerCapitaSwitch.leftLabel.text = "Absoluto";
     absolutePerCapitaSwitch.leftLabel.fill = am4core.color("#ffffff");
     absolutePerCapitaSwitch.rightLabel.fill = am4core.color("#ffffff");
-    absolutePerCapitaSwitch.rightLabel.text = "Per Capita";
+    absolutePerCapitaSwitch.rightLabel.text = "Por Población";
     absolutePerCapitaSwitch.rightLabel.interactionsEnabled = true;
     //absolutePerCapitaSwitch.rightLabel.tooltipText = "When calculating max value, countries with population less than 100.000 are not included."
     absolutePerCapitaSwitch.verticalCenter = "top";
@@ -388,7 +374,7 @@ export default {
         perCapita = true;
         bubbleSeries.interpolationDuration = 0;
         polygonSeries.heatRules.getIndex(0).max = colors[currentType];
-        polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+        //polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
         polygonSeries.mapPolygons.template.applyOnClones = true;
 
         sizeSlider.hide();
@@ -410,7 +396,7 @@ export default {
         filterLabel.show();
       }
       polygonSeries.mapPolygons.each(function(mapPolygon) {
-        var ref = mapPolygon.fill
+        var ref = mapPolygon.fill;
         mapPolygon.fill = ref;
         mapPolygon.defaultState.properties.fill = undefined;
       });
@@ -481,7 +467,7 @@ export default {
 
     // what to do when slider is dragged
     slider.events.on("rangechanged", function() {
-      var index = Math.round((covid_us_timeline.length - 1) * slider.start);
+      var index = Math.round((covid_mx_timeline.length - 1) * slider.start);
       updateMapData(getSlideData(index).list);
       updateTotals(index);
     });
@@ -551,7 +537,7 @@ export default {
     });
 
     var sizeLabel = container.createChild(am4core.Label);
-    sizeLabel.text = "max bubble size *";
+    sizeLabel.text = "tamaño máx burbuja *";
     sizeLabel.fill = am4core.color("#ffffff");
     sizeLabel.rotation = 90;
     sizeLabel.fontSize = "10px";
@@ -563,7 +549,7 @@ export default {
     sizeLabel.tooltip.label.wrap = true;
     sizeLabel.tooltip.label.maxWidth = 300;
     sizeLabel.tooltipText =
-      "Some states have so many cases that bubbles for states with smaller values often look the same even if there is a significant difference between them. This slider can be used to increase maximum size of a bubble so that when you zoom in to a region with relatively small values you could compare them anyway.";
+      "Algunos estados tienen tantos casos que las burbujas para estados con valores más pequeños pueden llegar a verse iguales, incluso si hay una diferencia significativa entre ellos. Este control se puede utilizar para aumentar el tamaño máximo de una burbuja, de modo que cuando se acerca a una región con valores relativamente pequeños, se pueda comparar los casos más fácilmente.";
     sizeLabel.fill = am4core.color("#ffffff");
 
     sizeLabel.adapter.add("y", function() {
@@ -624,7 +610,7 @@ export default {
     });
 
     var filterLabel = container.createChild(am4core.Label);
-    filterLabel.text = "filter max values *";
+    filterLabel.text = "filtrar valores máximos *";
     filterLabel.rotation = 90;
     filterLabel.fontSize = "10px";
     filterLabel.fill = am4core.color("#ffffff");
@@ -636,7 +622,7 @@ export default {
     filterLabel.tooltip.label.wrap = true;
     filterLabel.tooltip.label.maxWidth = 300;
     filterLabel.tooltipText =
-      "This filter allows to remove states with many cases from the map so that it would be possible to compare states with smaller number of cases.";
+      "Este filtro permite esconder estados con muchos casos para que sea posible comparar los estados con un número menor de casos.";
     filterLabel.fill = am4core.color("#ffffff");
 
     filterLabel.adapter.add("y", function() {
@@ -690,7 +676,7 @@ export default {
     lineChart.paddingTop = 3;
 
     // make a copy of data as we will be modifying it
-    lineChart.data = JSON.parse(JSON.stringify(covid_us_total_timeline));
+    lineChart.data = JSON.parse(JSON.stringify(covid_mx_total_timeline));
 
     // date axis
     // https://www.amcharts.com/docs/v4/concepts/axes/date-axis/
@@ -782,8 +768,8 @@ export default {
     });
 
     var seriesTypeSwitch = lineChart.legend.createChild(am4core.SwitchButton);
-    seriesTypeSwitch.leftLabel.text = "totals";
-    seriesTypeSwitch.rightLabel.text = "day change";
+    seriesTypeSwitch.leftLabel.text = "total";
+    seriesTypeSwitch.rightLabel.text = "cambio diario";
     seriesTypeSwitch.leftLabel.fill = am4core.color("#ffffff");
     seriesTypeSwitch.rightLabel.fill = am4core.color("#ffffff");
 
@@ -845,7 +831,14 @@ export default {
     confirmedSeries.hidden = false;
     var deathsSeries = addSeries("deaths", deathsColor);
 
+    // adjust series namesnpm ru
+    confirmedSeries.tooltipText = "Casos confirmados: {valueY}";
+    confirmedSeries.legendSettings.labelText = "Confirmados";
+    deathsSeries.tooltipText = "Decesos confirmados: {valueY}";
+    deathsSeries.legendSettings.labelText = "Decesos";
+
     var series = { confirmed: confirmedSeries, deaths: deathsSeries };
+
     // add series
     function addSeries(name, color) {
       var series = lineChart.series.push(new am4charts.LineSeries());
@@ -864,7 +857,7 @@ export default {
       var bullet = series.bullets.push(new am4charts.CircleBullet());
 
       // only needed to pass it to circle
-    //   var bulletHoverState = bullet.states.create("hover");
+      //   var bulletHoverState = bullet.states.create("hover");
       bullet.setStateOnChildren = true;
 
       bullet.circle.fillOpacity = 1;
@@ -897,6 +890,8 @@ export default {
       columnSeries = {};
       columnSeries.confirmed = addColumnSeries("confirmed", confirmedColor);
       columnSeries.deaths = addColumnSeries("deaths", deathsColor);
+
+      columnSeries.confirmed.name = "Confirmados";
     }
 
     // add series
@@ -939,7 +934,7 @@ export default {
 
     // data warning label
     var label = lineChart.plotContainer.createChild(am4core.Label);
-    label.text = "Current day stats may be incomplete.";
+    label.text = "Los datos a la fecha actual podrían estar desactualizados.";
     label.fill = am4core.color("#ffffff");
     label.fontSize = "0.8em";
     label.paddingBottom = 4;
@@ -952,6 +947,10 @@ export default {
     // create buttons
     var confirmedButton = addButton("confirmed", confirmedColor);
     var deathsButton = addButton("deaths", deathsColor);
+
+    // adjust buttons label
+    confirmedButton.label.text = "Confirmados";
+    deathsButton.label.text = "Decesos";
 
     var buttons = { confirmed: confirmedButton, deaths: deathsButton };
 
@@ -1004,11 +1003,16 @@ export default {
       currentType = name;
       currentTypeName = name;
       if (name != "deaths") {
-        currentTypeName += " cases";
+        currentTypeName += " casos";
       }
 
-      bubbleSeries.mapImages.template.tooltipText =
-        "[bold]{name}: {value}[/] [font-size:10px]\n" + currentTypeName;
+      if (currentTypeName == "deaths") {
+        bubbleSeries.mapImages.template.tooltipText =
+          "[bold]{name}: {value}[/] [font-size:10px]\n decesos";
+      } else {
+        bubbleSeries.mapImages.template.tooltipText =
+          "[bold]{name}: {value}[/] [font-size:10px]\n casos confirmados";
+      }
 
       // make button active
       var activeButton = buttons[name];
@@ -1066,7 +1070,7 @@ export default {
 
       // update heat rule's maxValue
       bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
-      polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+      // polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
       if (perCapita) {
         polygonSeries.heatRules.getIndex(0).max = colors[name];
         updateCountryTooltip();
@@ -1117,7 +1121,7 @@ export default {
     function setCountryData(countryIndex) {
       // instead of setting whole data array, we modify current raw data so that a nice animation would happen
       for (var i = 0; i < lineChart.data.length; i++) {
-        var di = covid_us_timeline[i].list;
+        var di = covid_mx_timeline[i].list;
 
         var countryData = di[countryIndex];
         var dataContext = lineChart.data[i];
@@ -1178,21 +1182,6 @@ export default {
       }
     }
 
-    // rotate and zoom
-    // function rotateAndZoom(mapPolygon) {
-    //   polygonSeries.hideTooltip();
-    //   var animation = mapChart.animate(
-    //     [
-    //       { property: "deltaLongitude", to: -mapPolygon.visualLongitude },
-    //       { property: "deltaLatitude", to: -mapPolygon.visualLatitude },
-    //     ],
-    //     1000
-    //   );
-    //   animation.events.on("animationended", function() {
-    //     mapChart.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon));
-    //   });
-    // }
-
     // calculate zoom level (default is too close)
     function getZoomLevel(mapPolygon) {
       var w = mapPolygon.polygon.bbox.width;
@@ -1206,7 +1195,7 @@ export default {
 
     // show world data
     function showWorld() {
-      currentCountry = "World";
+      currentCountry = "México";
       currentPolygon = undefined;
       resetHover();
 
@@ -1223,7 +1212,7 @@ export default {
 
       // update line chart data (again, modifying instead of setting new data for a nice animation)
       for (var i = 0; i < lineChart.data.length; i++) {
-        var di = covid_us_total_timeline[i];
+        var di = covid_mx_total_timeline[i];
         var dataContext = lineChart.data[i];
         dataContext.confirmed = di.confirmed;
         dataContext.deaths = di.deaths;
@@ -1248,7 +1237,7 @@ export default {
     // update total values in buttons
     function updateTotals(index) {
       if (!isNaN(index)) {
-        var di = covid_us_total_timeline[index];
+        var di = covid_mx_total_timeline[index];
         var date = new Date(di.date);
         currentDate = date;
 
@@ -1264,10 +1253,12 @@ export default {
         for (var key in buttons) {
           var count = Number(lineChart.data[index][key]);
           if (!isNaN(count)) {
-            buttons[key].label.text =
-              capitalizeFirstLetter(key) +
-              ": " +
-              numberFormatter.format(count, "#,###");
+            if (key == "confirmed")
+              buttons[key].label.text =
+                "Confirmados: " + numberFormatter.format(count, "#,###");
+            else
+              buttons[key].label.text =
+                "Decesos: " + numberFormatter.format(count, "#,###");
           }
         }
         currentIndex = index;
@@ -1282,7 +1273,7 @@ export default {
         dataItem.dataContext.deaths = 0;
       });
 
-      maxPC = { confirmed: 0, deaths: 0 };
+      // maxPC = { confirmed: 0, deaths: 0 };
 
       for (var i = 0; i < data.length; i++) {
         var di = data[i];
@@ -1302,16 +1293,16 @@ export default {
           polygon.dataItem.dataContext.deathsPC =
             (di.deaths / population) * 1000000;
 
-          if (polygon.dataItem.dataContext.confirmedPC > maxPC.confirmed) {
-            maxPC.confirmed = polygon.dataItem.dataContext.confirmedPC;
-          }
-          if (polygon.dataItem.dataContext.deathsPC > maxPC.deaths) {
-            maxPC.deaths = polygon.dataItem.dataContext.deathsPC;
-          }
+          // if (polygon.dataItem.dataContext.confirmedPC > maxPC.confirmed) {
+          //   maxPC.confirmed = polygon.dataItem.dataContext.confirmedPC;
+          // }
+          // if (polygon.dataItem.dataContext.deathsPC > maxPC.deaths) {
+          //   maxPC.deaths = polygon.dataItem.dataContext.deathsPC;
+          // }
         }
 
         bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
-        polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+        // polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
 
         bubbleSeries.invalidateRawData();
         polygonSeries.invalidateRawData();
@@ -1370,16 +1361,111 @@ export default {
     setTimeout(updateSeriesTooltip, 3000);
 
     function updateCountryTooltip() {
-      polygonSeries.mapPolygons.template.tooltipText =
-        "[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:10px]" +
-        currentTypeName +
-        " per million";
+      if (currentTypeName == "deaths") {
+        polygonSeries.mapPolygons.template.tooltipText =
+          "[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:10px] decesos por millón de habitantes";
+      } else {
+        polygonSeries.mapPolygons.template.tooltipText =
+          "[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:10px] casos confirmados por millón de habitantes";
+      }
     }
 
+    // Keep a local reference to the map and graph
     this.container = container;
   },
-  methods: {},
+  methods: {
+    convertSourceData: function() {
+      // JSON results object
+      var resultObject = [];
 
+      // Required vars
+      var MexicoStatesKeyMap = {
+        "MX-AGU": "AGU",
+        "MX-BCN": "BCN",
+        "MX-BCS": "BCS",
+        "MX-CAM": "CAM",
+        "MX-CHP": "CHP",
+        "MX-CHH": "CHH",
+        "MX-CMX": "CMX",
+        "MX-COA": "COA",
+        "MX-COL": "COL",
+        "MX-DUR": "DUR",
+        "MX-GUA": "GUA",
+        "MX-GRO": "GRO",
+        "MX-HID": "HID",
+        "MX-JAL": "JAL",
+        "MX-MIC": "MIC",
+        "MX-MOR": "MOR",
+        "MX-MEX": "MEX",
+        "MX-NAY": "NAY",
+        "MX-NLE": "NLE",
+        "MX-OAX": "OAX",
+        "MX-PUE": "PUE",
+        "MX-QUE": "QUE",
+        "MX-ROO": "ROO",
+        "MX-SLP": "SLP",
+        "MX-SIN": "SIN",
+        "MX-SON": "SON",
+        "MX-TAB": "TAB",
+        "MX-TAM": "TAM",
+        "MX-TLA": "TLA",
+        "MX-VER": "VER",
+        "MX-YUC": "YUC",
+        "MX-ZAC": "ZAC"
+      };
+
+      // Iterate source data
+      for (let i = 0; i < sourceData.length; i++) {
+        var currentRow = sourceData[i];
+
+        var resultsByDateObject = {
+          date: currentRow.Fecha,
+          list: []
+        };
+
+        for (var stateKey in MexicoStatesKeyMap) {
+          resultsByDateObject.list.push({
+            id: stateKey,
+            confirmed: parseInt(currentRow[MexicoStatesKeyMap[stateKey]]),
+            confirmed_imported: parseInt(
+              currentRow[MexicoStatesKeyMap[stateKey] + "_I"]
+            ),
+            confirmed_local: parseInt(
+              currentRow[MexicoStatesKeyMap[stateKey] + "_L"]
+            ),
+            deaths: parseInt(currentRow[MexicoStatesKeyMap[stateKey] + "_D"]),
+            recovered: parseInt(currentRow[MexicoStatesKeyMap[stateKey] + "_R"])
+          });
+        }
+
+        // Add to result array
+        resultObject.push(resultsByDateObject);
+      }
+
+      return resultObject;
+    },
+    convertSourceDataTotals: function() {
+      var resultObject = [];
+      for (let i = 0; i < sourceData.length; i++) {
+        resultObject.push({
+          date: sourceData[i].Fecha,
+          confirmed: parseInt(sourceData[i].Pos),
+          confirmed_imported: parseInt(sourceData[i].Pos_I),
+          confirmed_local: parseInt(sourceData[i].Pos_L),
+          confirmed_official: parseInt(sourceData[i].Pos_rep),
+          deaths: parseInt(sourceData[i].Deceased),
+          recovered: parseInt(sourceData[i].Recovered),
+          suspect: parseInt(sourceData[i].Susp),
+          suspect_official: parseInt(sourceData[i].Susp_rep),
+          tested: parseInt(sourceData[i].Tested_tot),
+          negative: parseInt(sourceData[i].Neg_rep)
+        });
+      }
+      return resultObject;
+    }
+  },
+
+  // Dispose resources
   beforeDestroy() {
     if (this.container) {
       this.container.dispose();

@@ -23,6 +23,6 @@ export default {
   components: {
     ListByState,
     MexicoMap
-  },
+  }
 };
 </script>
