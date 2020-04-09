@@ -131,16 +131,16 @@ export default {
       var currentCountry = "México (Total)";
 
       // last date of the data
-      var lastDateString = covid_mx_total_timeline[covid_mx_total_timeline.length - 1].date;
+      var lastDateString =
+        covid_mx_total_timeline[covid_mx_total_timeline.length - 1].date;
       var dateParts = lastDateString.split("-");
 
       // month is 0-based, that's why we need dataParts[1] - 1
-      var lastDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]); 
+      var lastDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
 
       // var lastDate = new Date(
       //   covid_mx_total_timeline[covid_mx_total_timeline.length - 1].date
       // );
-
 
       var currentDate = lastDate;
 
@@ -1309,7 +1309,7 @@ export default {
           var dateParts = lastDateString.split("-");
 
           // month is 0-based, that's why we need dataParts[1] - 1
-          var date = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]); 
+          var date = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
 
           currentDate = date;
 
@@ -1444,7 +1444,7 @@ export default {
 
       // Keep a local reference to the map and graph
       this.container = container;
-    },
+    }
     //   testMethod: function(){
     //     alert("hola");
     //   },
