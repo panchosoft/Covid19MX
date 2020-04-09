@@ -5,8 +5,8 @@
         <div class="col-md-9 pl-0 pr-0">
           <MexicoMap />
         </div>
-        <div class="col-md-3">
-          <ListByState />
+        <div class="col-md-3 border-left border-light">
+          <StatesList />
         </div>
       </div>
     </div>
@@ -15,13 +15,13 @@
 
 <script>
 // @ is an alias to /src
-import ListByState from "@/components/ListByState.vue";
+import StatesList from "@/components/StatesList.vue";
 import MexicoMap from "@/components/charts/MexicoMap.vue";
 
 export default {
   name: "Home",
   components: {
-    ListByState,
+    StatesList,
     MexicoMap
   }
 };

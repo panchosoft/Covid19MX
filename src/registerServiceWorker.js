@@ -21,6 +21,9 @@ if (process.env.NODE_ENV === "production") {
     },
     updated() {
       console.log("New content is available; please refresh.");
+      
+      // Force reload
+      window.location.reload(true);
     },
     offline() {
       console.log(
@@ -29,6 +32,6 @@ if (process.env.NODE_ENV === "production") {
     },
     error(error) {
       console.error("Error during service worker registration:", error);
-    }
+    },
   });
 }
