@@ -230,7 +230,11 @@ export default {
       container.tooltip.getFillFromObject = false;
       container.tooltip.getStrokeFromObject = false;
 
+      // Language
       container.language.locale = am4lang_es_ES;
+
+      // Responsive
+      // container.tapToActivate = true;
 
       // MAP CHART
       // https://www.amcharts.com/docs/v4/chart-types/map/
@@ -240,6 +244,10 @@ export default {
       mapChart.zoomControl.align = "right";
       mapChart.zoomControl.marginRight = 10;
       mapChart.zoomControl.valign = "middle";
+
+      // Responsive
+      // mapChart.responsive.enabled = true;
+      // mapChart.tapToActivate = true;
 
       // by default minus button zooms out by one step, but we modify the behavior so when user clicks on minus, the map would fully zoom-out and show world data
       mapChart.zoomControl.minusButton.events.on("hit", showWorld);
@@ -259,6 +267,7 @@ export default {
       // instead of Miller, you can use Mercator or many other projections available: https://www.amcharts.com/demos/map-using-d3-projections/
       mapChart.projection = new am4maps.projections.Miller();
       mapChart.panBehavior = "move";
+      mapChart.showOnInit = false;
 
       // Map polygon series (defines how country areas look and behave)
       var polygonSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
@@ -732,6 +741,10 @@ export default {
       lineChart.zoomOutButton.disabled = true;
       lineChart.paddingBottom = 5;
       lineChart.paddingTop = 3;
+
+      // Responsive
+      lineChart.responsive.enabled = true;
+      lineChart.tapToActivate = true;
 
       // make a copy of data as we will be modifying it
       lineChart.data = JSON.parse(JSON.stringify(covid_mx_total_timeline));
@@ -1444,11 +1457,14 @@ export default {
 
       // Keep a local reference to the map and graph
       this.container = container;
+
+      // setTimeout(changeDataType("deaths"), 3000);
+      // bubbleSeries.validate();
     }
     //   testMethod: function(){
     //     alert("hola");
     //   },
-    // convertSourceData: function() {
+    // ,convertSourceData: function() {
     //   // JSON results object
     //   var resultObject = [];
     //   // Required vars

@@ -7,10 +7,6 @@
   "theme_color": "#232f3e",
   "background_color": "#232f3e",
   "icons": [{
-    "src": "/img/icons/msapplication-icon-144x144.png",
-    "sizes": "144x144",
-    "type": "image/png"
-  }, {
     "src": "/img/icons/android-chrome-512x512.png",
     "sizes": "512x512",
     "type": "image/png"
