@@ -138,8 +138,8 @@ export default {
 </script>
 <style>
 .table-container {
-  max-height: 915px;
-  overflow-y: auto;
+  /* max-height: 915px;
+  overflow-y: auto; */
 }
 .greyColumn {
   background-color: #55555556;
@@ -181,5 +181,15 @@ table.vgt-table {
   border-bottom: 1px solid #212327;
   background: #212327;
   font-size: 15px;
+}
+.vgt-global-search{
+  padding: 0px !important;
+}
+.vgt-input, .vgt-select {
+    /* width: inherit !important; */
+    height: 26px !important;
+}
+.vgt-table.condensed td, .vgt-table.condensed th.vgt-row-header {
+    padding: .2em .2em .2em .2em;
 }
 </style>

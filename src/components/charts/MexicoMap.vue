@@ -5,7 +5,8 @@
 <style scoped>
 #MexicoMap {
   width: 100%;
-  height: 900px !important;
+  height: 100% !important;
+  min-height: 900px !important;
 }
 </style>
 
