@@ -121,8 +121,8 @@ export default {
           field: "confirmed",
           type: "number",
           align: "right",
-          thClass: "greyColumn",
-          tdClass: "greyColumn"
+          thClass: "grey-column",
+          tdClass: "grey-column"
         },
         {
           label: "Decesos",
@@ -137,11 +137,7 @@ export default {
 };
 </script>
 <style>
-.table-container {
-  /* max-height: 915px;
-  overflow-y: auto; */
-}
-.greyColumn {
+.grey-column {
   background-color: #55555556;
   border-bottom: 1px solid #555;
 }

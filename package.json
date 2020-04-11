@@ -6,12 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy:aws:s3": "aws s3 rm s3://covid19mexico.net --recursive && aws s3 sync ./dist s3://covid19mexico.net",
-    "deploy:aws:s3:mime": "aws s3 cp --exclude * --include *.js --content-type=application/javascript  --metadata-directive=REPLACE --recursive s3://covid19mexico.net/ s3://covid19mexico.net/",
-    "deploy:aws:s3:cache": "aws s3 cp --cache-control max-age=0 --metadata-directive=REPLACE s3://covid19mexico.net/index.html s3://covid19mexico.net/index.html",
-    "deploy:aws:s3:cache2": "aws s3 cp --cache-control max-age=0 --content-type=application/javascript --metadata-directive=REPLACE s3://covid19mexico.net/service-worker.js s3://covid19mexico.net/service-worker.js",
-    "deploy:aws:cf": "aws cloudfront create-invalidation --distribution-id E3NACEB5RDIF8V --paths \"/*\"",
-    "deploy": "npm run deploy:aws:s3 && npm run deploy:aws:s3:mime && npm run deploy:aws:s3:cache && npm run deploy:aws:s3:cache2 && npm run deploy:aws:cf"
+    "deploy": "deploy.bat"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.9.13",
