@@ -755,7 +755,7 @@ export default {
       dateAxis.renderer.minGridDistance = 50;
       dateAxis.renderer.grid.template.stroke = am4core.color("#000000");
       dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-      dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 5);
+      dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 1);
       dateAxis.tooltip.label.fontSize = "0.8em";
       dateAxis.tooltip.background.fill = confirmedColor;
       dateAxis.tooltip.background.stroke = confirmedColor;
@@ -966,7 +966,7 @@ export default {
         columnSeries.confirmed = addColumnSeries("confirmed", confirmedColor);
         columnSeries.deaths = addColumnSeries("deaths", deathsColor);
 
-        columnSeries.confirmed.name = "Confirmados";
+        // columnSeries.confirmed.name = "Confirmados";
       }
 
       // add series
