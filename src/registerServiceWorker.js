@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === "production") {
     updated() {
       console.log("New content is available; please refresh.");
 
-      // Force reload
+      // Force reload when there's a new version of the app
       window.location.reload(true);
     },
     offline() {

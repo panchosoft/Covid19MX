@@ -43,11 +43,6 @@ export default {
         this.loadMapAndChart();
       });
     });
-    // alert("fetch1");
-
-    // alert("fetch2");
-    // alert("done2")
-    // wrapping our fetch in a Promise.all would allow them to run concurrently.
   },
   mounted() {
     // console.log(this.convertSourceDataTotals());
@@ -65,6 +60,8 @@ export default {
       const source = await fetch("/data/mx_total_timeline.json");
       return await source.json();
     },
+
+    // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
       this.$root.$on("rollOverState", id => {

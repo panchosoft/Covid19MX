@@ -38,11 +38,6 @@ html, body{
     -webkit-tap-highlight-color: transparent !important;
     -webkit-touch-callout: none;
   }
-
-  /* .container-fluid {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  } */
 }
 </style>
 <script>

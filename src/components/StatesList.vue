@@ -182,7 +182,6 @@ table.vgt-table {
   padding: 0px !important;
 }
 .vgt-input, .vgt-select {
-    /* width: inherit !important; */
     height: 26px !important;
 }
 .vgt-table.condensed td, .vgt-table.condensed th.vgt-row-header {
