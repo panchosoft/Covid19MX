@@ -22,3 +22,6 @@ yarn-error.log*
 
 # Ignore AWS deployment script
 deploy.bat
+
+# Ignore refresh source data scripts
+refresh-source-data.js

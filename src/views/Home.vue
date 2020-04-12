@@ -28,15 +28,15 @@ export default {
 </script>
 
 <style scoped>
-  .home{
-    height: 100vh; 
-  }
-  .state-list-container{
-    border-left: 1px solid white;
-  }
+.home {
+  height: 100vh;
+}
+.state-list-container {
+  border-left: 1px solid white;
+}
 
 @media (max-width: 760px) {
-  .state-list-container{
+  .state-list-container {
     border-left: none !important;
     padding-top: 5px;
   }

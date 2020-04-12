@@ -10,8 +10,9 @@
 </template>
 
 <style>
-html, body{
-    background-color: #212327 !important;
+html,
+body {
+  background-color: #212327 !important;
 }
 .AppBackground {
   background-color: #212327 !important;

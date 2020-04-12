@@ -20,8 +20,6 @@ am4core.useTheme(am4themes_animated);
 
 import am4geodata_mexicoLow from "@amcharts/amcharts4-geodata/mexicoLow";
 
-// import sourceData from "@/json/Mexico_COVID19.json";
-
 export default {
   name: "MexicoMap",
   data() {
@@ -43,11 +41,6 @@ export default {
         this.loadMapAndChart();
       });
     });
-  },
-  mounted() {
-    // console.log(this.convertSourceDataTotals());
-    // console.log(this.convertSourceData());
-    //  this.convertSourceData();
   },
   methods: {
     fetchData: async function() {
@@ -1459,92 +1452,6 @@ export default {
       // setTimeout(changeDataType("deaths"), 3000);
       // bubbleSeries.validate();
     }
-    //   testMethod: function(){
-    //     alert("hola");
-    //   },
-    // ,convertSourceData: function() {
-    //   // JSON results object
-    //   var resultObject = [];
-    //   // Required vars
-    //   var MexicoStatesKeyMap = {
-    //     "MX-AGU": "AGU",
-    //     "MX-BCN": "BCN",
-    //     "MX-BCS": "BCS",
-    //     "MX-CAM": "CAM",
-    //     "MX-CHP": "CHP",
-    //     "MX-CHH": "CHH",
-    //     "MX-CMX": "CMX",
-    //     "MX-COA": "COA",
-    //     "MX-COL": "COL",
-    //     "MX-DUR": "DUR",
-    //     "MX-GUA": "GUA",
-    //     "MX-GRO": "GRO",
-    //     "MX-HID": "HID",
-    //     "MX-JAL": "JAL",
-    //     "MX-MIC": "MIC",
-    //     "MX-MOR": "MOR",
-    //     "MX-MEX": "MEX",
-    //     "MX-NAY": "NAY",
-    //     "MX-NLE": "NLE",
-    //     "MX-OAX": "OAX",
-    //     "MX-PUE": "PUE",
-    //     "MX-QUE": "QUE",
-    //     "MX-ROO": "ROO",
-    //     "MX-SLP": "SLP",
-    //     "MX-SIN": "SIN",
-    //     "MX-SON": "SON",
-    //     "MX-TAB": "TAB",
-    //     "MX-TAM": "TAM",
-    //     "MX-TLA": "TLA",
-    //     "MX-VER": "VER",
-    //     "MX-YUC": "YUC",
-    //     "MX-ZAC": "ZAC"
-    //   };
-    //   // Iterate source data
-    //   for (let i = 0; i < sourceData.length; i++) {
-    //     var currentRow = sourceData[i];
-    //     var resultsByDateObject = {
-    //       date: currentRow.Fecha,
-    //       list: []
-    //     };
-    //     for (var stateKey in MexicoStatesKeyMap) {
-    //       resultsByDateObject.list.push({
-    //         id: stateKey,
-    //         confirmed: parseInt(currentRow[MexicoStatesKeyMap[stateKey]]),
-    //         confirmed_imported: parseInt(
-    //           currentRow[MexicoStatesKeyMap[stateKey] + "_I"]
-    //         ),
-    //         confirmed_local: parseInt(
-    //           currentRow[MexicoStatesKeyMap[stateKey] + "_L"]
-    //         ),
-    //         deaths: parseInt(currentRow[MexicoStatesKeyMap[stateKey] + "_D"]),
-    //         recovered: parseInt(currentRow[MexicoStatesKeyMap[stateKey] + "_R"])
-    //       });
-    //     }
-    //     // Add to result array
-    //     resultObject.push(resultsByDateObject);
-    //   }
-    //   return resultObject;
-    // },
-    // convertSourceDataTotals: function() {
-    //   var resultObject = [];
-    //   for (let i = 0; i < sourceData.length; i++) {
-    //     resultObject.push({
-    //       date: sourceData[i].Fecha,
-    //       confirmed: parseInt(sourceData[i].Pos),
-    //       confirmed_imported: parseInt(sourceData[i].Pos_I),
-    //       confirmed_local: parseInt(sourceData[i].Pos_L),
-    //       confirmed_official: parseInt(sourceData[i].Pos_rep),
-    //       deaths: parseInt(sourceData[i].Deceased),
-    //       recovered: parseInt(sourceData[i].Recovered),
-    //       suspect: parseInt(sourceData[i].Susp),
-    //       suspect_official: parseInt(sourceData[i].Susp_rep),
-    //       tested: parseInt(sourceData[i].Tested_tot),
-    //       negative: parseInt(sourceData[i].Neg_rep)
-    //     });
-    //   }
-    //   return resultObject;
-    // }
   },
 
   // Dispose resources

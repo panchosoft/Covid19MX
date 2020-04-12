@@ -178,13 +178,15 @@ table.vgt-table {
   background: #212327;
   font-size: 15px;
 }
-.vgt-global-search{
+.vgt-global-search {
   padding: 0px !important;
 }
-.vgt-input, .vgt-select {
-    height: 26px !important;
+.vgt-input,
+.vgt-select {
+  height: 26px !important;
 }
-.vgt-table.condensed td, .vgt-table.condensed th.vgt-row-header {
-    padding: .2em .2em .2em .2em;
+.vgt-table.condensed td,
+.vgt-table.condensed th.vgt-row-header {
+  padding: 0.2em 0.2em 0.2em 0.2em;
 }
 </style>
