@@ -2,7 +2,7 @@
   <main role="main" class="flex-shrink-0 about">
     <div class="container">
       <h1 class="mt-5">Mapa interactivo de COVID-19 en M&eacute;xico</h1>
-      <p>Datos actualizados al <mark>11/4/2020 8:43 PM CDT</mark>.</p>
+      <p>Datos actualizados al <mark>12/4/2020 8:32 PM CDT</mark>.</p>
       <p class="lead">
         Este sitio web fue desarrollado en base a la informaci&oacute;n oficial
         publicada por el Gobierno Federal de M&eacute;xico y la
