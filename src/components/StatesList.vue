@@ -32,6 +32,9 @@ export default {
     // On state list click event
     onRowClick: function(params) {
       if (params && params.row) this.$root.$emit("selectState", params.row.id);
+
+      // Scroll to the map after selecting a state
+      document.getElementById("app").scrollIntoView();
     },
     // On row mouse enter in state list
     onRowMouseEnter: function(params) {

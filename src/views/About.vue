@@ -39,11 +39,11 @@
         >
       </p>
       <p class="lead pb-4">
-        Creado por Francisco Leyva (<a
+        Sitio web mantenido por Francisco Leyva (<a
           target="_blank"
           href="https://twitter.com/panchosoft"
           >@panchosoft</a
-        >).
+        >), "De mi rancho, a tu cocina".
       </p>
     </div>
   </main>

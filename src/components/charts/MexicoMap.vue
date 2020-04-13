@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       covid_mx_timeline: {},
-      covid_mx_total_timeline: {}
+      covid_mx_total_timeline: {},
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
     };
   },
   // Pre-load data before rendering page
@@ -227,6 +228,9 @@ export default {
       // Responsive
       // container.tapToActivate = true;
 
+      // Enable export
+      container.exporting.menu = new am4core.ExportMenu();
+
       // MAP CHART
       // https://www.amcharts.com/docs/v4/chart-types/map/
       var mapChart = container.createChild(am4maps.MapChart);
@@ -399,20 +403,20 @@ export default {
       // END OF MAP
 
       // top title
-      // var title = mapChart.titles.create();
-      // title.fontSize = "1.5em";
-      // title.text = "COVID-19 México Spread Data";
-      // title.align = "left";
-      // title.horizontalCenter = "left";
-      // title.marginLeft = 20;
-      // title.paddingBottom = 10;
-      // title.fill = am4core.color("#ffffff");
-      // title.y = 20;
+      var title = mapChart.titles.create();
+      title.fontSize = "12px";
+      title.text = "Última actualización:\n12/4/2020 8:32 PM CDT";
+      title.align = "left";
+      title.horizontalCenter = "left";
+      title.marginLeft = 20;
+      title.paddingBottom = 10;
+      title.fill = am4core.color("#ffffff");
+      title.y = 10;
 
       // switch between map and globe
       var absolutePerCapitaSwitch = mapChart.createChild(am4core.SwitchButton);
       absolutePerCapitaSwitch.align = "center";
-      absolutePerCapitaSwitch.y = 15;
+      absolutePerCapitaSwitch.y = this.isMobile ? 40 : 15;
       absolutePerCapitaSwitch.leftLabel.text = "Absoluto";
       absolutePerCapitaSwitch.leftLabel.fill = am4core.color("#ffffff");
       absolutePerCapitaSwitch.rightLabel.fill = am4core.color("#ffffff");
@@ -1149,7 +1153,7 @@ export default {
       var selectCountry = function(mapPolygon) {
         resetHover();
         polygonSeries.hideTooltip();
-        if(!mapPolygon) return;
+        if (!mapPolygon) return;
 
         // if the same country is clicked show world
         if (currentPolygon == mapPolygon) {

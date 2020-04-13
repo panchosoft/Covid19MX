@@ -3,7 +3,7 @@
     <div id="nav">
       <Navbar />
     </div>
-    <div class="container-fluid pt-5">
+    <div class="container-fluid">
       <router-view />
     </div>
   </div>
@@ -13,6 +13,7 @@
 html,
 body {
   background-color: #212327 !important;
+  /* padding-top: 40px; */
 }
 .AppBackground {
   background-color: #212327 !important;
