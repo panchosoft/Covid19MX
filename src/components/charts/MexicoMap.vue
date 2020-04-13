@@ -1149,6 +1149,7 @@ export default {
       var selectCountry = function(mapPolygon) {
         resetHover();
         polygonSeries.hideTooltip();
+        if(!mapPolygon) return;
 
         // if the same country is clicked show world
         if (currentPolygon == mapPolygon) {
@@ -1183,6 +1184,11 @@ export default {
 
         // zoom to state
         mapChart.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon));
+
+        // Show tooltip after selecting the state
+        setTimeout(function() {
+          rollOverCountry(mapPolygon);
+        }, 1000);
       };
 
       // change line chart data to the selected states
