@@ -405,7 +405,7 @@ export default {
       // top title
       var title = mapChart.titles.create();
       title.fontSize = "12px";
-      title.text = "Última actualización:\n12/4/2020 8:32 PM CDT";
+      title.text = "Última actualización:\n13/4/2020 09:49 PM CDT";
       title.align = "left";
       title.horizontalCenter = "left";
       title.marginLeft = 20;
