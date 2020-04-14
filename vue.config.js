@@ -20,11 +20,11 @@ module.exports = {
     }
   },
   configureWebpack: {
-    optimization: {
-      splitChunks: {
-        minSize: 20000,
-        maxSize: 250000
-      }
-    }
+    // optimization: {
+    //   splitChunks: {
+    //     minSize: 20000,
+    //     maxSize: 250000
+    //   }
+    // }
   }
 };
