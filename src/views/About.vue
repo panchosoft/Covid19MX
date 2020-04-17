@@ -2,7 +2,10 @@
   <main role="main" class="flex-shrink-0 about">
     <div class="container">
       <h1 class="mt-5">Mapa interactivo de COVID-19 en M&eacute;xico</h1>
-      <p>Datos actualizados al <mark>16/4/2020 09:04 PM CDT</mark>.</p>
+      <p>
+        Datos actualizados al <mark>{{ buildDateTime }}</mark
+        >.
+      </p>
       <p class="lead">
         Este sitio web fue desarrollado en base a la informaci&oacute;n oficial
         publicada por el Gobierno Federal de M&eacute;xico y la
@@ -53,3 +56,23 @@
   height: 920px;
 }
 </style>
+<script>
+export default {
+  name: "About",
+  data: function() {
+    return {
+      buildDateTime: this.getBuildTime(),
+    };
+  },
+  methods: {
+    getBuildTime(){
+      // Get build time from root <HTML> element
+      var buildTime = document.documentElement.dataset.buildTimestampUtc;
+
+      if(buildTime){
+        return new Date(buildTime).toLocaleString()
+      }
+    }
+  },
+};
+</script>
