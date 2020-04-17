@@ -190,6 +190,6 @@ table.vgt-table {
 }
 .vgt-table.condensed td,
 .vgt-table.condensed th.vgt-row-header {
-  padding: 0.2em 0.2em 0.2em 0.2em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
 }
 </style>

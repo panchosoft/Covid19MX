@@ -61,18 +61,18 @@ export default {
   name: "About",
   data: function() {
     return {
-      buildDateTime: this.getBuildTime(),
+      buildDateTime: this.getBuildTime()
     };
   },
   methods: {
-    getBuildTime(){
+    getBuildTime() {
       // Get build time from root <HTML> element
-      var buildTime = document.documentElement.dataset.buildTimestampUtc;
+      var buildTime = document.documentElement.dataset.buildTimestamp;
 
-      if(buildTime){
-        return new Date(buildTime).toLocaleString()
+      if (buildTime) {
+        return new Date(buildTime).toLocaleString();
       }
     }
-  },
+  }
 };
 </script>

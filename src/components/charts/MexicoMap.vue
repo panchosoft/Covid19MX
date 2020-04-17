@@ -26,16 +26,16 @@ export default {
     return {
       covid_mx_timeline: {},
       covid_mx_total_timeline: {},
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
     };
   },
   // Pre-load data before rendering page
   beforeMount() {
     // Reference
     // let MainVueObject = this;
-    this.fetchData().then((source) => {
+    this.fetchData().then(source => {
       this.covid_mx_timeline = source;
-      this.fetchDetailedData().then((source) => {
+      this.fetchDetailedData().then(source => {
         this.covid_mx_total_timeline = source;
 
         // Load map and chart once data is ready
@@ -57,20 +57,20 @@ export default {
 
     getBuildTime() {
       // Get build time from root <HTML> element
-      var buildTime = document.documentElement.dataset.buildTimestampUtc;
+      var buildTime = document.documentElement.dataset.buildTimestamp;
 
-      if(buildTime){
-        return new Date(buildTime).toLocaleString()
+      if (buildTime) {
+        return new Date(buildTime).toLocaleString();
       }
     },
 
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", (id) => {
+      this.$root.$on("rollOverState", id => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", (id) => {
+      this.$root.$on("selectState", id => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
@@ -110,7 +110,7 @@ export default {
         "MX-TLA": 1274227,
         "MX-VER": 8127832,
         "MX-YUC": 2102359,
-        "MX-ZAC": 1581575,
+        "MX-ZAC": 1581575
       };
 
       var numberFormatter = new am4core.NumberFormatter();
@@ -303,7 +303,7 @@ export default {
         property: "fill",
         min: countryColor,
         max: countryColor,
-        dataField: "value",
+        dataField: "value"
       });
 
       // you can have pacific - centered map if you set this to -154.8
@@ -370,12 +370,12 @@ export default {
         property: "radius",
         min: 3,
         max: 30,
-        dataField: "value",
+        dataField: "value"
       });
 
       // when data items validated, hide 0 value bubbles (because min size is set)
       bubbleSeries.events.on("dataitemsvalidated", function() {
-        bubbleSeries.dataItems.each((dataItem) => {
+        bubbleSeries.dataItems.each(dataItem => {
           var mapImage = dataItem.mapImage;
           var circle = mapImage.children.getIndex(0);
           if (mapImage.dataItem.value == 0) {
@@ -571,7 +571,8 @@ export default {
       sizeSlider.valign = "top";
       sizeSlider.verticalCenter = "middle";
       sizeSlider.opacity = 0.7;
-      sizeSlider.start = 0.5;
+      sizeSlider.start = this.isMobile ? 0.2 : 0.5;
+      sizeSlider.visible = !this.isMobile;
       sizeSlider.background.fill = am4core.color("#ffffff");
       sizeSlider.adapter.add("y", function() {
         return (
@@ -611,11 +612,12 @@ export default {
       sizeLabel.horizontalCenter = "middle";
       sizeLabel.align = "left";
       sizeLabel.paddingBottom = 40;
+      sizeLabel.visible = !this.isMobile;
       sizeLabel.tooltip.setBounds({
         x: 0,
         y: 0,
         width: 200000,
-        height: 200000,
+        height: 200000
       });
       sizeLabel.tooltip.label.wrap = true;
       sizeLabel.tooltip.label.maxWidth = 300;
@@ -643,6 +645,7 @@ export default {
       filterSlider.verticalCenter = "middle";
       filterSlider.opacity = 0.7;
       filterSlider.background.fill = am4core.color("#ffffff");
+      filterSlider.visible = !this.isMobile;
       filterSlider.adapter.add("y", function() {
         return (
           container.pixelHeight *
@@ -692,6 +695,7 @@ export default {
       filterLabel.paddingBottom = 40;
       filterLabel.tooltip.label.wrap = true;
       filterLabel.tooltip.label.maxWidth = 300;
+      filterLabel.visible = !this.isMobile;
       filterLabel.tooltipText =
         "Este filtro permite esconder estados con muchos casos para que sea posible comparar los estados con un número menor de casos.";
       filterLabel.fill = am4core.color("#ffffff");
@@ -759,7 +763,7 @@ export default {
       dateAxis.renderer.minGridDistance = 50;
       dateAxis.renderer.grid.template.stroke = am4core.color("#000000");
       dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-      dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 1);
+      dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 3);
       dateAxis.tooltip.label.fontSize = "0.8em";
       dateAxis.tooltip.background.fill = confirmedColor;
       dateAxis.tooltip.background.stroke = confirmedColor;
@@ -909,8 +913,9 @@ export default {
       confirmedSeries.tooltip.disabled = true;
       confirmedSeries.hidden = false;
       var deathsSeries = addSeries("deaths", deathsColor);
+      //var suspectSeries = addSeries("suspect", "#c55");
 
-      // adjust series namesnpm ru
+      // adjust series names
       confirmedSeries.tooltipText = "Casos confirmados: {valueY}";
       confirmedSeries.legendSettings.labelText = "Confirmados";
       deathsSeries.tooltipText = "Decesos confirmados: {valueY}";
@@ -1152,6 +1157,13 @@ export default {
         // update heat rule's maxValue
         bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
         // polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+
+        // Update sliders grip color
+        sizeSlider.startGrip.background.fill =
+          currentTypeName == "deaths" ? deathsColor : confirmedColor;
+        filterSlider.startGrip.background.fill =
+          currentTypeName == "deaths" ? deathsColor : confirmedColor;
+
         if (perCapita) {
           polygonSeries.heatRules.getIndex(0).max = colors[name];
           updateCountryTooltip();
@@ -1470,7 +1482,7 @@ export default {
 
       // setTimeout(changeDataType("deaths"), 3000);
       // bubbleSeries.validate();
-    },
+    }
   },
 
   // Dispose resources
@@ -1478,6 +1490,6 @@ export default {
     if (this.container) {
       this.container.dispose();
     }
-  },
+  }
 };
 </script>

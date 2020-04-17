@@ -1,9 +1,9 @@
 <template>
   <div>
-    <nav class="navbar navbar-dark navbar-expand-lg invisible">
+    <nav class="navbar navbar-dark navbar-expand-lg invisible py-0 py-md-0">
       <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
     </nav>
-    <nav class="navbar navbar-dark fixed-top navbar-expand-lg">
+    <nav class="navbar navbar-dark fixed-top navbar-expand-lg py-0 py-md-0">
       <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
       <button
         class="navbar-toggler mt-1"
