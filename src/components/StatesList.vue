@@ -84,7 +84,7 @@ export default {
       MexicoStatesKeyMap["MX-HID"] = "Hidalgo";
       MexicoStatesKeyMap["MX-JAL"] = "Jalisco";
       MexicoStatesKeyMap["MX-MIC"] = "Michoacán";
-      MexicoStatesKeyMap["MX-MOR"] = "Morelia";
+      MexicoStatesKeyMap["MX-MOR"] = "Morelos";
       MexicoStatesKeyMap["MX-MEX"] = "Estado de México";
       MexicoStatesKeyMap["MX-NAY"] = "Nayarit";
       MexicoStatesKeyMap["MX-NLE"] = "Nuevo León";
@@ -146,8 +146,8 @@ export default {
 }
 
 .vgt-table.nocturnal {
-  border: 1px solid #212327 !important;
-  background-color: #212327 !important;
+  border: 1px solid #24292e !important;
+  background-color: #24292e !important;
 }
 .vgt-table.nocturnal tr:hover {
   background-color: #030303 !important;
@@ -166,8 +166,8 @@ table.vgt-table {
   border-collapse: collapse;
 }
 .vgt-wrap.nocturnal .vgt-global-search {
-  border: 1px solid #212327;
-  background: #212327;
+  border: 1px solid #24292e;
+  background: #24292e;
 }
 .vgt-wrap.nocturnal .vgt-global-search__input .vgt-input,
 .vgt-wrap.nocturnal .vgt-global-search__input .vgt-select {

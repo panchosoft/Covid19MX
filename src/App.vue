@@ -12,11 +12,11 @@
 <style>
 html,
 body {
-  background-color: #212327 !important;
+  background-color: #24292e !important;
   /* padding-top: 40px; */
 }
 .AppBackground {
-  background-color: #212327 !important;
+  background-color: #24292e !important;
   color: #fff;
 }
 @media only screen and (-webkit-device-pixel-ratio: 2) {
