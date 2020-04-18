@@ -414,7 +414,10 @@ export default {
       // top title
       var title = mapChart.titles.create();
       title.fontSize = "12px";
-      title.text = "Última actualización:\n" + this.getBuildTime();
+      title.text =
+        "Última actualización:" +
+        (!this.isMobile ? "\n" : " ") +
+        this.getBuildTime();
       title.align = "left";
       title.horizontalCenter = "left";
       title.marginLeft = 20;
