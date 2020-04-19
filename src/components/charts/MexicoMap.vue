@@ -6,7 +6,13 @@
 #MexicoMap {
   width: 100%;
   height: 100% !important;
-  min-height: 900px !important;
+  min-height: 895px;
+  /* min-height: 100vh; */
+}
+@media (max-width: 768px) {
+  #MexicoMap {
+    min-height: 700px !important;
+  }
 }
 </style>
 
@@ -413,7 +419,7 @@ export default {
 
       // top title
       var title = mapChart.titles.create();
-      title.fontSize = "12px";
+      title.fontSize = (this.isMobile) ? "10px" : "12px";
       title.text =
         "Última actualización:" +
         (!this.isMobile ? "\n" : " ") +
@@ -575,7 +581,6 @@ export default {
       sizeSlider.verticalCenter = "middle";
       sizeSlider.opacity = 0.7;
       sizeSlider.start = this.isMobile ? 0.2 : 0.5;
-      sizeSlider.visible = !this.isMobile;
       sizeSlider.background.fill = am4core.color("#ffffff");
       sizeSlider.adapter.add("y", function() {
         return (
@@ -615,7 +620,6 @@ export default {
       sizeLabel.horizontalCenter = "middle";
       sizeLabel.align = "left";
       sizeLabel.paddingBottom = 40;
-      sizeLabel.visible = !this.isMobile;
       sizeLabel.tooltip.setBounds({
         x: 0,
         y: 0,
@@ -648,7 +652,6 @@ export default {
       filterSlider.verticalCenter = "middle";
       filterSlider.opacity = 0.7;
       filterSlider.background.fill = am4core.color("#ffffff");
-      filterSlider.visible = !this.isMobile;
       filterSlider.adapter.add("y", function() {
         return (
           container.pixelHeight *
@@ -698,7 +701,6 @@ export default {
       filterLabel.paddingBottom = 40;
       filterLabel.tooltip.label.wrap = true;
       filterLabel.tooltip.label.maxWidth = 300;
-      filterLabel.visible = !this.isMobile;
       filterLabel.tooltipText =
         "Este filtro permite esconder estados con muchos casos para que sea posible comparar los estados con un número menor de casos.";
       filterLabel.fill = am4core.color("#ffffff");
@@ -1005,8 +1007,9 @@ export default {
         series.tooltip.background.fillOpacity = 0.2;
         series.tooltip.background.fill = am4core.color("#000000");
         series.tooltip.fontSize = "0.8em";
+        var tooltipName = (name == "confirmed") ? "Confirmados" : "Decesos";
         series.tooltipText =
-          "{name}: {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
+          tooltipName + ": {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
 
         return series;
       }
@@ -1483,8 +1486,20 @@ export default {
       // Keep a local reference to the map and graph
       this.container = container;
 
-      // setTimeout(changeDataType("deaths"), 3000);
-      // bubbleSeries.validate();
+      // Hide or adjust controls on small screens
+      if(this.isMobile){
+        // Hide sliders
+        sizeSlider.hide();
+        sizeLabel.hide();
+        filterSlider.hide();
+        filterLabel.hide();
+
+        // Hide graph elements
+        label.hide();
+        lineChart.legend.removeChildren(seriesTypeSwitch);
+        lineChart.legend.hide();
+        container.exporting.menu.dispose();
+      }
     }
   },
 

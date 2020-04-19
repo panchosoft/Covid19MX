@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container-fluid pl-0 pr-0">
-      <div class="row">
+      <div class="row ml-0 mr-0">
         <div class="col-md-9 pl-0 pr-0">
           <MexicoMap />
         </div>
@@ -28,8 +28,9 @@ export default {
 </script>
 
 <style scoped>
-.home {
-  height: 100vh;
+.home{
+    background-color: #24292e;
+  color: #fff;
 }
 .state-list-container {
   border-left: 1px solid white;
