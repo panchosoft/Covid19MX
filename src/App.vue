@@ -42,22 +42,23 @@ export default {
     Navbar
   },
   methods: {
-      handleStyles () {
-        // Dark style to the body tag for the home page
-        if (['/'].includes(this.$route.path)) document.body.className = 'bg-dark'
-        // While style to the body tag for all other pages
-        else if (document.body.classList.contains('bg-dark')) document.body.className = 'bg-white'
-      }
-    },
-    // Handle styles when the app is initially loaded
-    mounted () {
-      this.handleStyles()
-    },
-    // Handle styles when the route changes
-    watch: {
-      '$route' () {
-        this.handleStyles()
-      }
+    handleStyles() {
+      // Dark style to the body tag for the home page
+      if (["/"].includes(this.$route.path)) document.body.className = "bg-dark";
+      // While style to the body tag for all other pages
+      else if (document.body.classList.contains("bg-dark"))
+        document.body.className = "bg-white";
     }
+  },
+  // Handle styles when the app is initially loaded
+  mounted() {
+    this.handleStyles();
+  },
+  // Handle styles when the route changes
+  watch: {
+    $route() {
+      this.handleStyles();
+    }
+  }
 };
 </script>

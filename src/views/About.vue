@@ -20,9 +20,10 @@
       </p>
 
       <p class="lead">
-        Mi plan es continuar actualizando el portal con nuevas
-        gr&aacute;ficas, estad&iacute;sticas, y ademas seguir agregando mejoras de dise&ntilde;o y rendimiento. El c&oacute;digo fuente
-        y los datos pre-procesados se encuentran disponibles en el siguiente repositorio en Github:
+        Mi plan es continuar actualizando el portal con nuevas gr&aacute;ficas,
+        estad&iacute;sticas, y ademas seguir agregando mejoras de dise&ntilde;o
+        y rendimiento. El c&oacute;digo fuente y los datos pre-procesados se
+        encuentran disponibles en el siguiente repositorio en Github:
       </p>
       <p>
         <a
@@ -39,7 +40,6 @@
           >@panchosoft</a
         >), "De mi rancho, a tu cocina".
       </p>
-      
     </div>
   </main>
 </template>
@@ -47,8 +47,7 @@
 .about {
   /* height: 920px; */
 }
-#app{
-
+#app {
 }
 </style>
 <script>

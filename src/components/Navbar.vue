@@ -3,13 +3,20 @@
     <nav class="navbar navbar-dark navbar-expand-lg invisible py-0 py-md-0">
       <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
     </nav>
-    <nav class="navbar navbar-dark fixed-top navbar-expand-lg py-0 py-md-0 navbar-toggleable-sm">
+    <nav
+      class="navbar navbar-dark fixed-top navbar-expand-lg py-0 py-md-0 navbar-toggleable-sm"
+    >
       <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
-        <button class="navbar-toggler navbar-toggler-right collapsed position-relative" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <span> </span>
-            <span> </span>
-            <span> </span>
-        </button>
+      <button
+        class="navbar-toggler navbar-toggler-right collapsed position-relative"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+      >
+        <span> </span>
+        <span> </span>
+        <span> </span>
+      </button>
 
       <div class="navbar-collapse collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -39,7 +46,7 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: "Navbar"
 };
 </script>
 
@@ -55,8 +62,8 @@ export default {
   outline: 0;
 }
 .navbar-dark .navbar-toggler {
-    color: #ffffff;
-    border-color: transparent;
+  color: #ffffff;
+  border-color: transparent;
 }
 .navbar-toggler span {
   display: block;

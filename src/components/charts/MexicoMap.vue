@@ -419,7 +419,7 @@ export default {
 
       // top title
       var title = mapChart.titles.create();
-      title.fontSize = (this.isMobile) ? "10px" : "12px";
+      title.fontSize = this.isMobile ? "10px" : "12px";
       title.text =
         "Última actualización:" +
         (!this.isMobile ? "\n" : " ") +
@@ -1007,9 +1007,10 @@ export default {
         series.tooltip.background.fillOpacity = 0.2;
         series.tooltip.background.fill = am4core.color("#000000");
         series.tooltip.fontSize = "0.8em";
-        var tooltipName = (name == "confirmed") ? "Confirmados" : "Decesos";
+        var tooltipName = name == "confirmed" ? "Confirmados" : "Decesos";
         series.tooltipText =
-          tooltipName + ": {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
+          tooltipName +
+          ": {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
 
         return series;
       }
@@ -1487,7 +1488,7 @@ export default {
       this.container = container;
 
       // Hide or adjust controls on small screens
-      if(this.isMobile){
+      if (this.isMobile) {
         // Hide sliders
         sizeSlider.hide();
         sizeLabel.hide();
