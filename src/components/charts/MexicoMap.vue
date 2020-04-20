@@ -268,6 +268,12 @@ export default {
       mapChart.seriesContainer.background.fillOpacity = 0;
       mapChart.zoomEasing = am4core.ease.sinOut;
 
+      // Mobile screen settings
+      if(this.isMobile){
+        mapChart.seriesContainer.draggable = false;
+        mapChart.seriesContainer.resizable = false;
+      }
+
       // https://www.amcharts.com/docs/v4/chart-types/map/#Map_data
       // you can use more accurate world map or map of any other country - a wide selection of maps available at: https://github.com/amcharts/amcharts4-geodata
       mapChart.geodata = am4geodata_mexicoLow;
@@ -773,6 +779,12 @@ export default {
       dateAxis.tooltip.background.fill = confirmedColor;
       dateAxis.tooltip.background.stroke = confirmedColor;
       dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+
+      if(this.isMobile){
+        dateAxis.renderer.labels.radius = am4core.percent(-25);
+        dateAxis.renderer.labels.template.padding(0, 0, 0, 0);
+        dateAxis.renderer.minGridDistance = 35;
+      }
       /*
   dateAxis.renderer.labels.template.adapter.add("fillOpacity", function(fillOpacity, target){
       return dateAxis.valueToPosition(target.dataItem.value) + 0.1;
@@ -934,7 +946,7 @@ export default {
         series.dataFields.valueY = name;
         series.dataFields.dateX = "date";
         series.name = capitalizeFirstLetter(name);
-        series.strokeOpacity = 0.6;
+        series.strokeOpacity = 0.9;
         series.stroke = color;
         series.fill = color;
         series.maskBullets = false;
@@ -1011,6 +1023,13 @@ export default {
         series.tooltipText =
           tooltipName +
           ": {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
+
+        // Mobile
+        if(this.isMobile){
+          series.labels.template.radius = am4core.percent(-15);
+      series.labels.template.fill = am4core.color("white");
+      series.labels.template.padding(0, 0, 0, 0);
+        }
 
         return series;
       }

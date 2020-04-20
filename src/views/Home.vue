@@ -31,6 +31,7 @@ export default {
 .home {
   background-color: #24292e;
   color: #fff;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%236d6d6d' fill-opacity='.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'/%3E%3C/svg%3E");
 }
 .state-list-container {
   border-left: 1px solid white;
