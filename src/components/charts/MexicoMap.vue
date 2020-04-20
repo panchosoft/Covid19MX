@@ -32,16 +32,16 @@ export default {
     return {
       covid_mx_timeline: {},
       covid_mx_total_timeline: {},
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
     };
   },
   // Pre-load data before rendering page
   beforeMount() {
     // Reference
     // let MainVueObject = this;
-    this.fetchData().then(source => {
+    this.fetchData().then((source) => {
       this.covid_mx_timeline = source;
-      this.fetchDetailedData().then(source => {
+      this.fetchDetailedData().then((source) => {
         this.covid_mx_total_timeline = source;
 
         // Load map and chart once data is ready
@@ -73,10 +73,10 @@ export default {
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", id => {
+      this.$root.$on("rollOverState", (id) => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", id => {
+      this.$root.$on("selectState", (id) => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
@@ -116,7 +116,7 @@ export default {
         "MX-TLA": 1274227,
         "MX-VER": 8127832,
         "MX-YUC": 2102359,
-        "MX-ZAC": 1581575
+        "MX-ZAC": 1581575,
       };
 
       var numberFormatter = new am4core.NumberFormatter();
@@ -269,7 +269,7 @@ export default {
       mapChart.zoomEasing = am4core.ease.sinOut;
 
       // Mobile screen settings
-      if(this.isMobile){
+      if (this.isMobile) {
         mapChart.seriesContainer.draggable = false;
         mapChart.seriesContainer.resizable = false;
       }
@@ -315,7 +315,7 @@ export default {
         property: "fill",
         min: countryColor,
         max: countryColor,
-        dataField: "value"
+        dataField: "value",
       });
 
       // you can have pacific - centered map if you set this to -154.8
@@ -382,12 +382,12 @@ export default {
         property: "radius",
         min: 3,
         max: 30,
-        dataField: "value"
+        dataField: "value",
       });
 
       // when data items validated, hide 0 value bubbles (because min size is set)
       bubbleSeries.events.on("dataitemsvalidated", function() {
-        bubbleSeries.dataItems.each(dataItem => {
+        bubbleSeries.dataItems.each((dataItem) => {
           var mapImage = dataItem.mapImage;
           var circle = mapImage.children.getIndex(0);
           if (mapImage.dataItem.value == 0) {
@@ -630,7 +630,7 @@ export default {
         x: 0,
         y: 0,
         width: 200000,
-        height: 200000
+        height: 200000,
       });
       sizeLabel.tooltip.label.wrap = true;
       sizeLabel.tooltip.label.maxWidth = 300;
@@ -780,7 +780,7 @@ export default {
       dateAxis.tooltip.background.stroke = confirmedColor;
       dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
 
-      if(this.isMobile){
+      if (this.isMobile) {
         dateAxis.renderer.labels.radius = am4core.percent(-25);
         dateAxis.renderer.labels.template.padding(0, 0, 0, 0);
         dateAxis.renderer.minGridDistance = 35;
@@ -1024,13 +1024,6 @@ export default {
           tooltipName +
           ": {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
 
-        // Mobile
-        if(this.isMobile){
-          series.labels.template.radius = am4core.percent(-15);
-      series.labels.template.fill = am4core.color("white");
-      series.labels.template.padding(0, 0, 0, 0);
-        }
-
         return series;
       }
 
@@ -1270,7 +1263,7 @@ export default {
 
       function updateSeriesTooltip() {
         // Validate objects still exist
-        if(lineChart.isDisposed()) return;
+        if (lineChart.isDisposed()) return;
 
         var position = dateAxis.dateToPosition(currentDate);
         position = dateAxis.toGlobalPosition(position);
@@ -1523,7 +1516,7 @@ export default {
         lineChart.legend.hide();
         container.exporting.menu.dispose();
       }
-    }
+    },
   },
 
   // Dispose resources
@@ -1532,6 +1525,6 @@ export default {
       this.container.dispose();
       am4core.disposeAllCharts();
     }
-  }
+  },
 };
 </script>
