@@ -14,7 +14,13 @@
         enabled: true,
         initialSortBy: { field: 'confirmed', type: 'desc' }
       }"
-    />
+    >
+    <template slot="table-column" slot-scope="props">
+     <span class="text-break">
+        {{props.column.label}}
+     </span>
+  </template>
+    </vue-good-table>
   </div>
 </template>
 
