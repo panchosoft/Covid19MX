@@ -1250,6 +1250,9 @@ export default {
       }
 
       function updateSeriesTooltip() {
+        // Validate objects still exist
+        if(lineChart.isDisposed()) return;
+
         var position = dateAxis.dateToPosition(currentDate);
         position = dateAxis.toGlobalPosition(position);
         var x = dateAxis.positionToCoordinate(position);
@@ -1508,6 +1511,7 @@ export default {
   beforeDestroy() {
     if (this.container) {
       this.container.dispose();
+      am4core.disposeAllCharts();
     }
   }
 };

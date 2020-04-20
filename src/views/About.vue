@@ -1,7 +1,7 @@
 <template>
   <main role="main" class="flex-shrink-0 about">
     <div class="container">
-      <h1 class="mt-5">Mapa interactivo de COVID-19 en M&eacute;xico</h1>
+      <h1 class="mt-3">Mapa interactivo de COVID-19 en M&eacute;xico</h1>
       <p>
         &Uacute;ltima actualizaci&oacute;n: <mark>{{ buildDateTime }}</mark
         >.
@@ -41,13 +41,61 @@
         >), "De mi rancho, a tu cocina".
       </p>
     </div>
+    <div class="d-flex">
+      <ul
+        class="list-group list-group-horizontal border-0 mx-auto justify-content-center"
+      >
+        <li class="list-group-item">
+          <img
+            src="/img/icons/aws.png"
+            title="Hospedado en Amazon Web Services (S3 + Cloudfront)"
+          />
+        </li>
+        <li class="list-group-item">
+          <a href="https://vuejs.org/" target="_blank"
+            ><img
+              src="/img/icons/vue.png"
+              title="Desarrollado usando Vue.js framework"
+          /></a>
+        </li>
+        <li class="list-group-item">
+          <a
+            href="https://github.com/panchosoft/Covid19MX"
+            target="_blank"
+            class="mb-0"
+            ><img
+              src="/img/icons/github.png"
+              title="Código fuente disponible en Github"
+          /></a>
+        </li>
+        <li class="list-group-item mt-2">
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
+            target="_blank"
+            class="mb-0"
+            ><img
+              class="pwa-icon"
+              src="/img/icons/pwa.png"
+              title="Progressive Web App"
+          /></a>
+        </li>
+      </ul>
+    </div>
   </main>
 </template>
 <style scoped>
-.about {
-  /* height: 920px; */
+.list-group-item {
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-#app {
+.list-group-item img {
+  width: 48px;
+  height: 48px;
+}
+.pwa-icon {
+  width: 70px !important;
+  height: 26px !important;
 }
 </style>
 <script>
@@ -55,7 +103,7 @@ export default {
   name: "About",
   data: function() {
     return {
-      buildDateTime: this.getBuildTime()
+      buildDateTime: this.getBuildTime(),
     };
   },
   methods: {
@@ -66,7 +114,7 @@ export default {
       if (buildTime) {
         return new Date(buildTime).toLocaleString();
       }
-    }
-  }
+    },
+  },
 };
 </script>
