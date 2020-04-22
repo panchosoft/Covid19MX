@@ -32,17 +32,17 @@ export default {
     return {
       covid_mx_timeline: {},
       covid_mx_total_timeline: {},
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
     };
   },
   // Pre-load data before rendering page
   beforeMount() {
     // Reference
     // let MainVueObject = this;
-    this.fetchData().then((source) => {
+    this.fetchData().then(source => {
       this.covid_mx_timeline = source;
-      this.fetchDetailedData().then((source) => {
-        this.covid_mx_total_timeline = source;
+      this.fetchDetailedData().then(_source => {
+        this.covid_mx_total_timeline = _source;
 
         // Load map and chart once data is ready
         this.loadMapAndChart();
@@ -73,10 +73,10 @@ export default {
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", (id) => {
+      this.$root.$on("rollOverState", id => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", (id) => {
+      this.$root.$on("selectState", id => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
@@ -116,7 +116,7 @@ export default {
         "MX-TLA": 1274227,
         "MX-VER": 8127832,
         "MX-YUC": 2102359,
-        "MX-ZAC": 1581575,
+        "MX-ZAC": 1581575
       };
 
       var numberFormatter = new am4core.NumberFormatter();
@@ -315,7 +315,7 @@ export default {
         property: "fill",
         min: countryColor,
         max: countryColor,
-        dataField: "value",
+        dataField: "value"
       });
 
       // you can have pacific - centered map if you set this to -154.8
@@ -382,12 +382,12 @@ export default {
         property: "radius",
         min: 3,
         max: 30,
-        dataField: "value",
+        dataField: "value"
       });
 
       // when data items validated, hide 0 value bubbles (because min size is set)
       bubbleSeries.events.on("dataitemsvalidated", function() {
-        bubbleSeries.dataItems.each((dataItem) => {
+        bubbleSeries.dataItems.each(dataItem => {
           var mapImage = dataItem.mapImage;
           var circle = mapImage.children.getIndex(0);
           if (mapImage.dataItem.value == 0) {
@@ -630,7 +630,7 @@ export default {
         x: 0,
         y: 0,
         width: 200000,
-        height: 200000,
+        height: 200000
       });
       sizeLabel.tooltip.label.wrap = true;
       sizeLabel.tooltip.label.maxWidth = 300;
@@ -1159,7 +1159,7 @@ export default {
           // hide other series
           for (var key4 in columnSeries) {
             if (columnSeries[key4] != currentSeries) {
-              currentSeries[key4].hide();
+              columnSeries[key4].hide();
             }
           }
         } else {
@@ -1516,7 +1516,7 @@ export default {
         lineChart.legend.hide();
         container.exporting.menu.dispose();
       }
-    },
+    }
   },
 
   // Dispose resources
@@ -1525,6 +1525,6 @@ export default {
       this.container.dispose();
       am4core.disposeAllCharts();
     }
-  },
+  }
 };
 </script>

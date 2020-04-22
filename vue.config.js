@@ -16,8 +16,24 @@ module.exports = {
       msTileImage: "img/icons/msapplication-icon-150x150.png"
     },
     workboxOptions: {
-      skipWaiting: true
-      // exclude: ['data/mx_timeline.json', 'data/mx_total_timeline.json'],
+      skipWaiting: true,
+      runtimeCaching: [
+        {
+          urlPattern: /\.(?:json)$/,
+          handler: "cacheFirst",
+          options: {
+            // Use a custom cache name for this route.
+            cacheName: "json",
+            // Configure custom cache expiration.
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 300, // 5 mins cache
+              // Automatically cleanup if quota is exceeded.
+              purgeOnQuotaError: true
+            }
+          }
+        }
+      ]
     }
   },
   configureWebpack: {
