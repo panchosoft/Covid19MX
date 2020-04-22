@@ -17,7 +17,7 @@ module.exports = {
     },
     workboxOptions: {
       skipWaiting: true
-      //exclude: ['data/mx_timeline.json', 'data/mx_total_timeline.json'],
+      // exclude: ['data/mx_timeline.json', 'data/mx_total_timeline.json'],
     }
   },
   configureWebpack: {
