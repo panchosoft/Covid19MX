@@ -17,7 +17,23 @@ module.exports = {
     },
     workboxOptions: {
       skipWaiting: true,
-      exclude: ['data/mx_timeline.json', 'data/mx_total_timeline.json'],
+      runtimeCaching: [
+        {
+          urlPattern: "/data/",
+          handler: 'networkFirst',
+          options: {
+            // Use a custom cache name for this route.
+            cacheName: 'data-cache',
+            // Configure custom cache expiration.
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 300, // 30 days
+              // Automatically cleanup if quota is exceeded.
+              purgeOnQuotaError: true,
+            },
+          },
+        },
+      ]
     }
   },
   configureWebpack: {
