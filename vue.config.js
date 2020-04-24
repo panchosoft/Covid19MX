@@ -20,7 +20,7 @@ module.exports = {
       runtimeCaching: [
         {
           urlPattern: "/data/",
-          handler: 'networkFirst',
+          handler: 'NetworkFirst',
           options: {
             // Use a custom cache name for this route.
             cacheName: 'data-cache',
