@@ -146,6 +146,25 @@ export default {
 };
 </script>
 <style>
+@media only screen and (-webkit-device-pixel-ratio: 2) {
+  #table-root  {
+    font-size: 12px !important;
+  }
+}
+@media (max-width: 1024px) {
+  #table-root {
+    margin-top: 10px;
+  }
+  table.vgt-table {
+  font-size: 12px !important;
+  border-collapse: collapse;
+}
+.vgt-table.nocturnal thead th {
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: normal;
+}
+}
 .grey-column {
   background-color: #55555556;
   border-bottom: 1px solid #555;

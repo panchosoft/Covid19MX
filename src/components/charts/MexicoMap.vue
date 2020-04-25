@@ -32,16 +32,16 @@ export default {
     return {
       covid_mx_timeline: {},
       covid_mx_total_timeline: {},
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
     };
   },
   // Pre-load data before rendering page
   beforeMount() {
     // Reference
     // let MainVueObject = this;
-    this.fetchData().then(source => {
+    this.fetchData().then((source) => {
       this.covid_mx_timeline = source;
-      this.fetchDetailedData().then(_source => {
+      this.fetchDetailedData().then((_source) => {
         this.covid_mx_total_timeline = _source;
 
         // Load map and chart once data is ready
@@ -73,16 +73,17 @@ export default {
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", id => {
+      this.$root.$on("rollOverState", (id) => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", id => {
+      this.$root.$on("selectState", (id) => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
       // Local vars
       var covid_mx_timeline = this.covid_mx_timeline;
       var covid_mx_total_timeline = this.covid_mx_total_timeline;
+      var parentIsMobile = this.isMobile;
 
       var populations = {
         "MX-AGU": 1316032,
@@ -116,7 +117,7 @@ export default {
         "MX-TLA": 1274227,
         "MX-VER": 8127832,
         "MX-YUC": 2102359,
-        "MX-ZAC": 1581575
+        "MX-ZAC": 1581575,
       };
 
       var numberFormatter = new am4core.NumberFormatter();
@@ -268,12 +269,6 @@ export default {
       mapChart.seriesContainer.background.fillOpacity = 0;
       mapChart.zoomEasing = am4core.ease.sinOut;
 
-      // Mobile screen settings
-      if (this.isMobile) {
-        mapChart.seriesContainer.draggable = false;
-        mapChart.seriesContainer.resizable = false;
-      }
-
       // https://www.amcharts.com/docs/v4/chart-types/map/#Map_data
       // you can use more accurate world map or map of any other country - a wide selection of maps available at: https://github.com/amcharts/amcharts4-geodata
       mapChart.geodata = am4geodata_mexicoLow;
@@ -315,7 +310,7 @@ export default {
         property: "fill",
         min: countryColor,
         max: countryColor,
-        dataField: "value"
+        dataField: "value",
       });
 
       // you can have pacific - centered map if you set this to -154.8
@@ -382,12 +377,12 @@ export default {
         property: "radius",
         min: 3,
         max: 30,
-        dataField: "value"
+        dataField: "value",
       });
 
       // when data items validated, hide 0 value bubbles (because min size is set)
       bubbleSeries.events.on("dataitemsvalidated", function() {
-        bubbleSeries.dataItems.each(dataItem => {
+        bubbleSeries.dataItems.each((dataItem) => {
           var mapImage = dataItem.mapImage;
           var circle = mapImage.children.getIndex(0);
           if (mapImage.dataItem.value == 0) {
@@ -426,10 +421,7 @@ export default {
       // top title
       var title = mapChart.titles.create();
       title.fontSize = this.isMobile ? "10px" : "12px";
-      title.text =
-        "Última actualización:" +
-        (!this.isMobile ? "\n" : " ") +
-        this.getBuildTime();
+      title.text = "Última actualización:\n" + this.getBuildTime();
       title.align = "left";
       title.horizontalCenter = "left";
       title.marginLeft = 20;
@@ -471,10 +463,12 @@ export default {
           bubbleSeries.show();
           polygonSeries.heatRules.getIndex(0).max = countryColor;
           polygonSeries.mapPolygons.template.tooltipText = undefined;
-          sizeSlider.show();
-          filterSlider.show();
-          sizeLabel.show();
-          filterLabel.show();
+          if(!parentIsMobile){
+            sizeSlider.show();
+            filterSlider.show();
+            sizeLabel.show();
+            filterLabel.show();
+          }
         }
         polygonSeries.mapPolygons.each(function(mapPolygon) {
           var ref = mapPolygon.fill;
@@ -630,7 +624,7 @@ export default {
         x: 0,
         y: 0,
         width: 200000,
-        height: 200000
+        height: 200000,
       });
       sizeLabel.tooltip.label.wrap = true;
       sizeLabel.tooltip.label.maxWidth = 300;
@@ -774,17 +768,12 @@ export default {
       dateAxis.renderer.minGridDistance = 50;
       dateAxis.renderer.grid.template.stroke = am4core.color("#000000");
       dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-      dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 3);
+      dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 2);
       dateAxis.tooltip.label.fontSize = "0.8em";
       dateAxis.tooltip.background.fill = confirmedColor;
       dateAxis.tooltip.background.stroke = confirmedColor;
       dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
 
-      if (this.isMobile) {
-        dateAxis.renderer.labels.radius = am4core.percent(-25);
-        dateAxis.renderer.labels.template.padding(0, 0, 0, 0);
-        dateAxis.renderer.minGridDistance = 35;
-      }
       /*
   dateAxis.renderer.labels.template.adapter.add("fillOpacity", function(fillOpacity, target){
       return dateAxis.valueToPosition(target.dataItem.value) + 0.1;
@@ -801,6 +790,7 @@ export default {
       valueAxis.renderer.maxLabelPosition = 0.98;
       valueAxis.min = 0;
       //valueAxis.renderer.baseGrid.disabled = true;
+      valueAxis.renderer.inside = false;
       valueAxis.tooltip.disabled = true;
       valueAxis.extraMax = 0.05;
       valueAxis.maxPrecision = 0;
@@ -855,7 +845,6 @@ export default {
       lineChart.legend.labels.template.fill = am4core.color("#ffffff");
       lineChart.legend.markers.template.height = 8;
       lineChart.legend.contentAlign = "left";
-      //lineChart.legend.fontSize = "10px";
       lineChart.legend.itemContainers.template.valign = "middle";
       var legendDown = false;
       lineChart.legend.itemContainers.template.events.on("down", function() {
@@ -868,8 +857,8 @@ export default {
       });
 
       var seriesTypeSwitch = lineChart.legend.createChild(am4core.SwitchButton);
-      seriesTypeSwitch.leftLabel.text = "total";
-      seriesTypeSwitch.rightLabel.text = "cambio diario";
+      seriesTypeSwitch.leftLabel.text = "Acumulado";
+      seriesTypeSwitch.rightLabel.text = "Por día";
       seriesTypeSwitch.leftLabel.fill = am4core.color("#ffffff");
       seriesTypeSwitch.rightLabel.fill = am4core.color("#ffffff");
 
@@ -933,9 +922,9 @@ export default {
       //var suspectSeries = addSeries("suspect", "#c55");
 
       // adjust series names
-      confirmedSeries.tooltipText = "Casos confirmados: {valueY}";
+      confirmedSeries.tooltipText = "Casos confirmados: {confirmed}";
       confirmedSeries.legendSettings.labelText = "Confirmados";
-      deathsSeries.tooltipText = "Decesos confirmados: {valueY}";
+      deathsSeries.tooltipText = "Decesos: {valueY}";
       deathsSeries.legendSettings.labelText = "Decesos";
 
       var series = { confirmed: confirmedSeries, deaths: deathsSeries };
@@ -1037,15 +1026,16 @@ export default {
       });
 
       // data warning label
-      var label = lineChart.plotContainer.createChild(am4core.Label);
-      label.text = "Los datos a la fecha actual podrían estar desactualizados.";
-      label.fill = am4core.color("#ffffff");
-      label.fontSize = "0.8em";
-      label.paddingBottom = 4;
-      label.opacity = 0.5;
-      label.align = "right";
-      label.horizontalCenter = "right";
-      label.verticalCenter = "bottom";
+      var warning_label = lineChart.plotContainer.createChild(am4core.Label);
+      warning_label.text =
+        "Los datos a la fecha actual podrían estar desactualizados.";
+      warning_label.fill = am4core.color("#ffffff");
+      warning_label.fontSize = "0.8em";
+      warning_label.paddingBottom = 4;
+      warning_label.opacity = 0.5;
+      warning_label.align = "right";
+      warning_label.horizontalCenter = "right";
+      warning_label.verticalCenter = "bottom";
 
       // BUTTONS
       // create buttons
@@ -1351,8 +1341,8 @@ export default {
       function updateCountryName() {
         countryName.text =
           currentCountry +
-          ", " +
-          mapChart.dateFormatter.format(currentDate, "MMM dd, yyyy");
+          (parentIsMobile ? "\n" : ", ") +
+          mapChart.dateFormatter.format(currentDate, "MMMM dd, yyyy");
       }
 
       // update total values in buttons
@@ -1504,6 +1494,70 @@ export default {
 
       // Hide or adjust controls on small screens
       if (this.isMobile) {
+        // Change UI elements
+        container.padding(0,0,0,0);
+        buttonsContainer.padding(0,0,0,0);
+
+        // Map Chart
+        mapChart.seriesContainer.draggable = false;
+        mapChart.seriesContainer.resizable = false;
+        mapChart.padding(0,0,0,0);
+        mapChart.margin(0,0,0,0);
+        mapChart.height = am4core.percent(60);
+
+        chartAndSliderContainer.background.cornerRadius(0, 0, 0, 0);
+        chartAndSliderContainer.paddingTop = 7;
+        chartAndSliderContainer.paddingBottom = 0;
+
+        // buttonsAndChartContainer.height = am4core.percent(48); // make this bigger if you want more space for the chart
+
+        // Line chart/graph
+        lineChart.legend.fontSize = "10px";
+        lineChart.fontSize = 10;
+        // lineChart.numberFormatter.numberFormat = "#a";
+        lineChart.padding(0,0,0,0);
+        lineChart.margin(0,0,0,0);
+        lineChart.legend.markers.template.height = 8;
+        lineChart.legend.contentAlign = "topleft";
+        lineChart.cursor.lineY.disabled = true;
+
+        // Slider container
+        sliderContainer.width = am4core.percent(100);
+        sliderContainer.padding(0, 15, 2, 10);
+
+        // Buttons
+        for (var b in buttons){
+          buttons[b].fontSize = "0.8em";
+        }
+        countryName.fontSize = "0.9em";
+        absolutePerCapitaSwitch.leftLabel.fontSize = "0.8em";
+        absolutePerCapitaSwitch.rightLabel.fontSize = "0.8em";
+        absolutePerCapitaSwitch.align = "right";
+        absolutePerCapitaSwitch.y = 10;
+        absolutePerCapitaSwitch.verticalCenter = "top";
+
+        // Date Axis
+        // seriesTypeSwitch.padding(0,0,0,5);
+        // seriesTypeSwitch.margin(0,0,0,5);
+
+        dateAxis.tooltip.label.fontSize = "0.8em";
+        dateAxis.renderer.labels.radius = am4core.percent(-15);
+        dateAxis.renderer.labels.template.padding(0, 0, 0, 0);
+        dateAxis.renderer.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+        dateAxis.renderer.minGridDistance = 35;
+        dateAxis.renderer.inside = false;
+        dateAxis.cursorTooltipEnabled = false;
+        dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 2);
+
+        valueAxis.renderer.inside = false;
+        valueAxis.renderer.labels.template.padding(0, 0, 0, 0);
+        valueAxis.cursorTooltipEnabled = false;
+
+        for (var s in series) {
+          series[s].tooltip.fontSize = "0.6em";
+          series[s].hiddenInLegend = true;
+        }
+
         // Hide sliders
         sizeSlider.hide();
         sizeLabel.hide();
@@ -1511,12 +1565,12 @@ export default {
         filterLabel.hide();
 
         // Hide graph elements
-        label.hide();
-        lineChart.legend.removeChildren(seriesTypeSwitch);
-        lineChart.legend.hide();
+        warning_label.hide();
+        //lineChart.legend.removeChildren(seriesTypeSwitch);
+        //lineChart.legend.hide();
         container.exporting.menu.dispose();
       }
-    }
+    },
   },
 
   // Dispose resources
@@ -1525,6 +1579,6 @@ export default {
       this.container.dispose();
       am4core.disposeAllCharts();
     }
-  }
+  },
 };
 </script>
