@@ -16,24 +16,24 @@ module.exports = {
       msTileImage: "img/icons/msapplication-icon-150x150.png"
     },
     workboxOptions: {
-      skipWaiting: true,
-      runtimeCaching: [
-        {
-          urlPattern: "/data/",
-          handler: 'NetworkFirst',
-          options: {
-            // Use a custom cache name for this route.
-            cacheName: 'data-cache',
-            // Configure custom cache expiration.
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 300, // 30 days
-              // Automatically cleanup if quota is exceeded.
-              purgeOnQuotaError: true,
-            },
-          },
-        },
-      ]
+      skipWaiting: true
+      // runtimeCaching: [
+      //   {
+      //     urlPattern: "/data/",
+      //     handler: 'NetworkFirst',
+      //     options: {
+      //       // Use a custom cache name for this route.
+      //       cacheName: 'data-cache',
+      //       // Configure custom cache expiration.
+      //       expiration: {
+      //         maxEntries: 10,
+      //         maxAgeSeconds: 300, // 30 days
+      //         // Automatically cleanup if quota is exceeded.
+      //         purgeOnQuotaError: true,
+      //       },
+      //     },
+      //   },
+      // ]
     }
   },
   configureWebpack: {

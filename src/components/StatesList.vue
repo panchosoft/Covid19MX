@@ -20,6 +20,9 @@
           {{ props.column.label }}
         </span>
       </template>
+      <div slot="emptystate">
+        Fuente de datos no disponible.
+      </div>
     </vue-good-table>
   </div>
 </template>
@@ -34,33 +37,16 @@ export default {
   components: {
     VueGoodTable
   },
-  methods: {
-    // On state list click event
-    onRowClick: function(params) {
-      if (params && params.row) this.$root.$emit("selectState", params.row.id);
-
-      // Scroll to the map after selecting a state
-      document.getElementById("app").scrollIntoView();
-    },
-    // On row mouse enter in state list
-    onRowMouseEnter: function(params) {
-      if (params && params.row)
-        this.$root.$emit("rollOverState", params.row.id);
-    }
+  mounted() {
+    // Enable communication with map to receive source json data
+    this.$root.$on("sendSourceData", json => {
+      this.copySourceData(json);
+    });
   },
 
-  beforeMount() {
-    // Reference
-    let MainVueObject = this;
-
-    // Get source data
-    const getSourceData = async () => {
-      const source = await fetch("/data/mx_timeline.json");
-      return await source.json();
-    };
-
-    // Process results
-    getSourceData().then(function(sourceData) {
+  methods: {
+    // Receive source json data
+    copySourceData(sourceData) {
       // Validate source data
       if (sourceData == null && sourceData.length == 0) return;
 
@@ -110,14 +96,26 @@ export default {
 
       // Add rows to the table source data
       for (var i = 0; i < mostRecentObject.list.length - 1; i++) {
-        MainVueObject.rows.push({
+        this.rows.push({
           id: mostRecentObject.list[i].id,
           state: MexicoStatesKeyMap[mostRecentObject.list[i].id],
           confirmed: parseInt(mostRecentObject.list[i].confirmed),
           deaths: parseInt(mostRecentObject.list[i].deaths)
         });
       }
-    });
+    },
+    // On state list click event
+    onRowClick: function(params) {
+      if (params && params.row) this.$root.$emit("selectState", params.row.id);
+
+      // Scroll to the map after selecting a state
+      document.getElementById("app").scrollIntoView();
+    },
+    // On row mouse enter in state list
+    onRowMouseEnter: function(params) {
+      if (params && params.row)
+        this.$root.$emit("rollOverState", params.row.id);
+    }
   },
   data: function() {
     return {
@@ -147,7 +145,7 @@ export default {
 </script>
 <style>
 @media only screen and (-webkit-device-pixel-ratio: 2) {
-  #table-root  {
+  #table-root {
     font-size: 12px !important;
   }
 }
@@ -156,14 +154,14 @@ export default {
     margin-top: 10px;
   }
   table.vgt-table {
-  font-size: 12px !important;
-  border-collapse: collapse;
-}
-.vgt-table.nocturnal thead th {
-  font-size: 12px !important;
-  font-style: normal;
-  font-weight: normal;
-}
+    font-size: 12px !important;
+    border-collapse: collapse;
+  }
+  .vgt-table.nocturnal thead th {
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: normal;
+  }
 }
 .grey-column {
   background-color: #55555556;

@@ -32,16 +32,22 @@ export default {
     return {
       covid_mx_timeline: {},
       covid_mx_total_timeline: {},
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
     };
   },
   // Pre-load data before rendering page
   beforeMount() {
-    // Reference
-    // let MainVueObject = this;
-    this.fetchData().then((source) => {
+    // Request source data
+    this.fetchData().then(source => {
+      // Keep local reference
       this.covid_mx_timeline = source;
-      this.fetchDetailedData().then((_source) => {
+
+      // Propagate data to states list
+      this.$root.$emit("sendSourceData", this.covid_mx_timeline);
+
+      // Request detailed source data
+      this.fetchDetailedData().then(_source => {
+        // Keep local reference
         this.covid_mx_total_timeline = _source;
 
         // Load map and chart once data is ready
@@ -61,6 +67,7 @@ export default {
       return await source.json();
     },
 
+    // Get latest update date time directly from the <html> tag
     getBuildTime() {
       // Get build time from root <HTML> element
       var buildTime = document.documentElement.dataset.buildTimestamp;
@@ -73,10 +80,10 @@ export default {
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", (id) => {
+      this.$root.$on("rollOverState", id => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", (id) => {
+      this.$root.$on("selectState", id => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
@@ -117,7 +124,7 @@ export default {
         "MX-TLA": 1274227,
         "MX-VER": 8127832,
         "MX-YUC": 2102359,
-        "MX-ZAC": 1581575,
+        "MX-ZAC": 1581575
       };
 
       var numberFormatter = new am4core.NumberFormatter();
@@ -310,7 +317,7 @@ export default {
         property: "fill",
         min: countryColor,
         max: countryColor,
-        dataField: "value",
+        dataField: "value"
       });
 
       // you can have pacific - centered map if you set this to -154.8
@@ -377,12 +384,12 @@ export default {
         property: "radius",
         min: 3,
         max: 30,
-        dataField: "value",
+        dataField: "value"
       });
 
       // when data items validated, hide 0 value bubbles (because min size is set)
       bubbleSeries.events.on("dataitemsvalidated", function() {
-        bubbleSeries.dataItems.each((dataItem) => {
+        bubbleSeries.dataItems.each(dataItem => {
           var mapImage = dataItem.mapImage;
           var circle = mapImage.children.getIndex(0);
           if (mapImage.dataItem.value == 0) {
@@ -463,7 +470,7 @@ export default {
           bubbleSeries.show();
           polygonSeries.heatRules.getIndex(0).max = countryColor;
           polygonSeries.mapPolygons.template.tooltipText = undefined;
-          if(!parentIsMobile){
+          if (!parentIsMobile) {
             sizeSlider.show();
             filterSlider.show();
             sizeLabel.show();
@@ -624,7 +631,7 @@ export default {
         x: 0,
         y: 0,
         width: 200000,
-        height: 200000,
+        height: 200000
       });
       sizeLabel.tooltip.label.wrap = true;
       sizeLabel.tooltip.label.maxWidth = 300;
@@ -1495,14 +1502,14 @@ export default {
       // Hide or adjust controls on small screens
       if (this.isMobile) {
         // Change UI elements
-        container.padding(0,0,0,0);
-        buttonsContainer.padding(0,0,0,0);
+        container.padding(0, 0, 0, 0);
+        buttonsContainer.padding(0, 0, 0, 0);
 
         // Map Chart
         mapChart.seriesContainer.draggable = false;
         mapChart.seriesContainer.resizable = false;
-        mapChart.padding(0,0,0,0);
-        mapChart.margin(0,0,0,0);
+        mapChart.padding(0, 0, 0, 0);
+        mapChart.margin(0, 0, 0, 0);
         mapChart.height = am4core.percent(60);
 
         chartAndSliderContainer.background.cornerRadius(0, 0, 0, 0);
@@ -1515,8 +1522,8 @@ export default {
         lineChart.legend.fontSize = "10px";
         lineChart.fontSize = 10;
         // lineChart.numberFormatter.numberFormat = "#a";
-        lineChart.padding(0,0,0,0);
-        lineChart.margin(0,0,0,0);
+        lineChart.padding(0, 0, 0, 0);
+        lineChart.margin(0, 0, 0, 0);
         lineChart.legend.markers.template.height = 8;
         lineChart.legend.contentAlign = "topleft";
         lineChart.cursor.lineY.disabled = true;
@@ -1526,7 +1533,7 @@ export default {
         sliderContainer.padding(0, 15, 2, 10);
 
         // Buttons
-        for (var b in buttons){
+        for (var b in buttons) {
           buttons[b].fontSize = "0.8em";
         }
         countryName.fontSize = "0.9em";
@@ -1543,7 +1550,8 @@ export default {
         dateAxis.tooltip.label.fontSize = "0.8em";
         dateAxis.renderer.labels.radius = am4core.percent(-15);
         dateAxis.renderer.labels.template.padding(0, 0, 0, 0);
-        dateAxis.renderer.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+        dateAxis.renderer.labels.template.text =
+          "{value.percent.formatNumber('#.0')}%";
         dateAxis.renderer.minGridDistance = 35;
         dateAxis.renderer.inside = false;
         dateAxis.cursorTooltipEnabled = false;
@@ -1570,7 +1578,7 @@ export default {
         //lineChart.legend.hide();
         container.exporting.menu.dispose();
       }
-    },
+    }
   },
 
   // Dispose resources
@@ -1579,6 +1587,6 @@ export default {
       this.container.dispose();
       am4core.disposeAllCharts();
     }
-  },
+  }
 };
 </script>
