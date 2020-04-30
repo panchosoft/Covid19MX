@@ -546,10 +546,12 @@ export default {
       slider.marginRight = 35;
       slider.height = 15;
       slider.start = 1;
+      slider.dateFormatter.dateFormat = "yyyy-MM-dd";
 
       // what to do when slider is dragged
-      slider.events.on("rangechanged", function() {
+      slider.events.on("rangechanged", () => {
         var index = Math.round((covid_mx_timeline.length - 1) * slider.start);
+
         updateMapData(getSlideData(index).list);
         updateTotals(index);
       });
@@ -854,6 +856,7 @@ export default {
       lineChart.legend.contentAlign = "left";
       lineChart.legend.itemContainers.template.valign = "middle";
       var legendDown = false;
+
       lineChart.legend.itemContainers.template.events.on("down", function() {
         legendDown = true;
       });
@@ -1266,6 +1269,9 @@ export default {
         position = dateAxis.toGlobalPosition(position);
         var x = dateAxis.positionToCoordinate(position);
 
+        // Fix for issue where latest date item can't be selected
+        if (position >= 0.95) x = x + 30;
+
         lineChart.cursor.triggerMove({ x: x, y: 0 }, "soft", true);
         lineChart.series.each(function(series) {
           if (!series.isHidden) {
@@ -1372,6 +1378,11 @@ export default {
           var position = dateAxis.dateToPosition(date);
           position = dateAxis.toGlobalPosition(position);
           var x = dateAxis.positionToCoordinate(position);
+
+          // Fix for issue where latest date item can't be selected
+          if (index == covid_mx_total_timeline.length - 1) x = x + 20;
+
+          // console.log("index: " + index + " pos: " + position + " x: " + x);
 
           if (lineChart.cursor) {
             lineChart.cursor.triggerMove({ x: x, y: 0 }, "soft", true);
@@ -1555,7 +1566,6 @@ export default {
         dateAxis.renderer.minGridDistance = 35;
         dateAxis.renderer.inside = false;
         dateAxis.cursorTooltipEnabled = false;
-        dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 2);
 
         valueAxis.renderer.inside = false;
         valueAxis.renderer.labels.template.padding(0, 0, 0, 0);
