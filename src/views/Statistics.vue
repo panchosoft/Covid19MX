@@ -7,18 +7,40 @@
         <span class="font-weight-bold text-info">{{ buildDateTime }}</span
         >, se han detectado
         <span class="font-weight-bold text-info"
-          >{{ currentData.confirmed ? currentData.confirmed.toLocaleString() : 0 }}
+          >{{
+            currentData.confirmed ? currentData.confirmed.toLocaleString() : 0
+          }}
           casos confirmados</span
         >
         de COVID-19, incluyendo
         <span class="font-weight-bold text-danger"
-          >{{ currentData.deaths ? currentData.deaths.toLocaleString() : 0  }}
-          muertes</span
+          >{{
+            currentData.deaths ? currentData.deaths.toLocaleString() : 0
+          }}
+          defunciones</span
         >
         reportadas por la Secretar&iacute;a de Salud y el Gobierno Federal.
       </p>
     </div>
-    <ColumnChart :sourceData="sourceTotalData"></ColumnChart>
+    <div id="chartsContainer" class="mt-5">
+      <ColumnChart
+        title="Evolución de casos confirmados"
+        :sourceData="sourceTotalData"
+        sourceField="confirmed"
+        :chartTitle="new Number(currentData.confirmed ? currentData.confirmed : 0).toLocaleString()"
+        chartSubtitle="casos confirmados"
+        highlightColor="#0093D5"
+      ></ColumnChart>
+      <div class="mt-5"></div>
+      <ColumnChart
+        title="Defunciones confirmadas en el tiempo"
+        :sourceData="sourceTotalData"
+        sourceField="deaths"
+        :chartTitle="new Number(currentData.deaths ? currentData.deaths : 0).toLocaleString()"
+        chartSubtitle="decesos"
+        highlightColor="#C33545"
+      ></ColumnChart>
+    </div>
   </main>
 </template>
 
@@ -34,7 +56,7 @@ export default {
       sourceData: {},
       sourceTotalData: {},
       mostRecentDate: {},
-      currentData: {}
+      currentData: {},
     };
   },
   beforeMount() {
@@ -45,7 +67,6 @@ export default {
 
       // Request source data
       this.fetchData("/data/mx_timeline.json").then((_source) => {
-
         // Keep local reference
         this.sourceData = _source;
 
@@ -63,7 +84,7 @@ export default {
       this.mostRecentDate = new Date(this.sourceTotalData[0].date);
 
       // Obtain the most recent record
-      for (var i = 0; i < this.sourceTotalData.length - 1; i++) {
+      for (var i = 0; i <= this.sourceTotalData.length - 1; i++) {
         // Get Date
         var current = this.sourceTotalData[i];
         var dateParts = current.date.split("-");
@@ -115,6 +136,9 @@ export default {
 
 <style scoped>
 .statistics {
-    height: 100vh;
+  height: 100vh;
+}
+.text-info {
+  color: #0093d5 !important;
 }
 </style>
