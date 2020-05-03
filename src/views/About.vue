@@ -1,7 +1,7 @@
 <template>
   <main role="main" class="flex-shrink-0 about">
     <div class="container">
-      <h1 class="mt-3">Mapa interactivo de COVID-19 en M&eacute;xico</h1>
+      <h1 class="pt-3">Mapa interactivo de COVID-19 en M&eacute;xico</h1>
       <p>
         &Uacute;ltima actualizaci&oacute;n: <mark>{{ buildDateTime }}</mark
         >.
@@ -41,10 +41,11 @@
         >), "De mi rancho, a tu cocina".
       </p>
     </div>
-    <div class="d-flex">
+    <div class="container">
       <ul
         class="list-group list-group-horizontal border-0 mx-auto justify-content-center"
       >
+
         <li class="list-group-item">
           <img
             src="/img/icons/aws.png"
@@ -80,14 +81,19 @@
           /></a>
         </li>
       </ul>
+      <br />
     </div>
   </main>
 </template>
 <style scoped>
+.about{
+  height: 100vh;
+}
 .list-group-item {
   border: none;
   padding-left: 10px;
   padding-right: 10px;
+  background: transparent;
 }
 .list-group-item img {
   width: 48px;

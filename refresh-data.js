@@ -17,7 +17,7 @@ csv()
     // JSON results object
     var mx_timeline = [];
     var mx_total_timeline = [];
-    var minStartDate = new Date("2020-02-24");
+    var minStartDate = new Date("2020-02-28");
 
     var MexicoStatesKeyMap = {
       "MX-AGU": "AGU",

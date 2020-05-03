@@ -3,13 +3,20 @@
     <div id="nav">
       <Navbar />
     </div>
-    <div class="container-fluid pl-0 pr-0">
+    <div class="container-fluid text-white router-view pl-0 pr-0">
       <router-view />
     </div>
   </div>
 </template>
 
 <style>
+body{
+  background-color: #24292e !important;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%236d6d6d' fill-opacity='.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'/%3E%3C/svg%3E") !important;
+}
+.router-view{
+  /* background-color: #24292e !important; */
+}
 @media only screen and (-webkit-device-pixel-ratio: 2) {
   body {
     font-size: 13px !important;
@@ -40,25 +47,6 @@ export default {
   name: "App",
   components: {
     Navbar
-  },
-  methods: {
-    handleStyles() {
-      // Dark style to the body tag for the home page
-      if (["/"].includes(this.$route.path)) document.body.className = "bg-dark";
-      // While style to the body tag for all other pages
-      else if (document.body.classList.contains("bg-dark"))
-        document.body.className = "bg-white";
-    }
-  },
-  // Handle styles when the app is initially loaded
-  mounted() {
-    this.handleStyles();
-  },
-  // Handle styles when the route changes
-  watch: {
-    $route() {
-      this.handleStyles();
-    }
   }
 };
 </script>

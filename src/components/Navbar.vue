@@ -29,6 +29,15 @@
               >Inicio <span class="sr-only">(current)</span></router-link
             >
           </li>
+                    <li class="nav-item">
+            <router-link
+              class="nav-link"
+              to="/statistics"
+              data-toggle="collapse"
+              data-target=".navbar-collapse.show"
+              >Estad&iacute;sticas</router-link
+            >
+          </li>
           <li class="nav-item">
             <router-link
               class="nav-link"

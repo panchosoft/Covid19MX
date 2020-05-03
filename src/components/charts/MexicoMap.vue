@@ -36,9 +36,9 @@ export default {
     };
   },
   // Pre-load data before rendering page
-  beforeMount() {
+  mounted() {
     // Request source data
-    this.fetchData().then(source => {
+    this.fetchData("/data/mx_timeline.json").then(source => {
       // Keep local reference
       this.covid_mx_timeline = source;
 
@@ -46,7 +46,7 @@ export default {
       this.$root.$emit("sendSourceData", this.covid_mx_timeline);
 
       // Request detailed source data
-      this.fetchDetailedData().then(_source => {
+      this.fetchData("/data/mx_total_timeline.json").then(_source => {
         // Keep local reference
         this.covid_mx_total_timeline = _source;
 
@@ -56,17 +56,14 @@ export default {
     });
   },
   methods: {
-    fetchData: async function() {
-      // Get source data
-      const source = await fetch("/data/mx_timeline.json");
-      return await source.json();
-    },
-    fetchDetailedData: async function() {
-      // Get source data
-      const source = await fetch("/data/mx_total_timeline.json");
-      return await source.json();
-    },
+    fetchData: async function(url) {
+      // Validate url is defined
+      if(!url) return;
 
+      // Get source data
+      const source = await fetch(url);
+      return await source.json();
+    },
     // Get latest update date time directly from the <html> tag
     getBuildTime() {
       // Get build time from root <HTML> element
