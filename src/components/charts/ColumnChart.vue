@@ -26,37 +26,40 @@ import am4lang_es_ES from "@amcharts/amcharts4/lang/es_ES";
 // am4core.options.queue = true;
 // am4core.options.viewportTarget = document.getElementById("chartsContainer")
 // if(!am4core.options.onlyShowOnViewport)
-  // am4core.options.onlyShowOnViewport = true;
-
+// am4core.options.onlyShowOnViewport = true;
 
 // am4core.useTheme(am4themes_animated);
 
 export default {
   name: "ColumnChart",
-  props: ["sourceData","sourceField","title","chartTitle","chartSubtitle","highlightColor"],
+  props: [
+    "sourceData",
+    "sourceField",
+    "title",
+    "chartTitle",
+    "chartSubtitle",
+    "highlightColor"
+  ],
   watch: {
     sourceData: function(newSource) {
       // If new source is defined
-      if(newSource && newSource.length > 0)
-        this.renderGraph()
+      if (newSource && newSource.length > 0) this.renderGraph();
     },
-    chartTitle: function(newTitle){
-      if(this.mainTitle && newTitle)
-        this.mainTitle.text = newTitle;
+    chartTitle: function(newTitle) {
+      if (this.mainTitle && newTitle) this.mainTitle.text = newTitle;
     },
-    chartSubtitle: function (newSubtitle){
-      if(this.mainSubtitle && newSubtitle)
+    chartSubtitle: function(newSubtitle) {
+      if (this.mainSubtitle && newSubtitle)
         this.mainSubtitle.text = newSubtitle;
     }
   },
-  data(){
+  data() {
     return {
       isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
-    }
+    };
   },
-  mounted(){
-    if(this.sourceData && this.sourceData.length > 0)
-      this.renderGraph();
+  mounted() {
+    if (this.sourceData && this.sourceData.length > 0) this.renderGraph();
   },
   methods: {
     renderGraph() {
@@ -66,7 +69,7 @@ export default {
       // Language
       chart.language.locale = am4lang_es_ES;
       chart.language.locale["_decimalSeparator"] = ".";
-      chart.language.locale["_thousandSeparator"] = ","; 
+      chart.language.locale["_thousandSeparator"] = ",";
 
       // Cursor
       chart.cursor = new am4charts.XYCursor();
@@ -101,14 +104,13 @@ export default {
       subTitle.fill = am4core.color("#ffffff");
       subTitle.isMeasured = false;
       subTitle.y = 85;
-    
 
       // Create axes
       var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.dataFields.category = "date";
       dateAxis.renderer.grid.template.location = 0;
 
-    // dateAxis.renderer.minGridDistance = 30;
+      // dateAxis.renderer.minGridDistance = 30;
       // dateAxis.renderer.labels.template.disabled = true;
       dateAxis.renderer.labels.template.fill = am4core.color("#fff");
       dateAxis.renderer.grid.template.disabled = true;
@@ -132,7 +134,14 @@ export default {
       series.dataFields.dateX = "date";
       series.name = "series";
       series.columns.template.dateFormatter.dateFormat = "MM-dd";
-      series.columns.template.tooltipText = "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n[bold " + this.highlightColor + "]{valueY}[/] " + this.chartSubtitle + "\n[bold #" + this.highlightColor + "]+{valueY.previousChange}[/] casos nuevos";
+      series.columns.template.tooltipText =
+        "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n[bold " +
+        this.highlightColor +
+        "]{valueY}[/] " +
+        this.chartSubtitle +
+        "\n[bold #" +
+        this.highlightColor +
+        "]+{valueY.previousChange}[/] casos nuevos";
       series.tooltip.pointerOrientation = "down";
       series.tooltip.autoTextColor = false;
       series.tooltip.label.fill = am4core.color("#000");
@@ -152,15 +161,15 @@ export default {
       var columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 1;
       columnTemplate.strokeOpacity = 1;
-      series.columns.template.fill = am4core.color("#eaeaea")
-      series.columns.template.stroke = am4core.color("#eaeaea")
+      series.columns.template.fill = am4core.color("#eaeaea");
+      series.columns.template.stroke = am4core.color("#eaeaea");
 
       var hoverState = series.columns.template.states.create("hover");
       hoverState.properties.fill = am4core.color(this.highlightColor);
       hoverState.properties.stroke = am4core.color(this.highlightColor);
 
       // Small screens config
-      if(this.isMobile){
+      if (this.isMobile) {
         // Rounded corners
         series.columns.template.column.cornerRadiusTopLeft = 1;
         series.columns.template.column.cornerRadiusTopRight = 1;
@@ -182,6 +191,6 @@ export default {
     if (this.chart) {
       this.chart.dispose();
     }
-  },
+  }
 };
 </script>

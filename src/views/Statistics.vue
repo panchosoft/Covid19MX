@@ -27,7 +27,11 @@
         title="Evolución de casos confirmados"
         :sourceData="sourceTotalData"
         sourceField="confirmed"
-        :chartTitle="new Number(currentData.confirmed ? currentData.confirmed : 0).toLocaleString()"
+        :chartTitle="
+          new Number(
+            currentData.confirmed ? currentData.confirmed : 0
+          ).toLocaleString()
+        "
         chartSubtitle="casos confirmados"
         highlightColor="#0093D5"
       ></ColumnChart>
@@ -36,7 +40,11 @@
         title="Defunciones confirmadas en el tiempo"
         :sourceData="sourceTotalData"
         sourceField="deaths"
-        :chartTitle="new Number(currentData.deaths ? currentData.deaths : 0).toLocaleString()"
+        :chartTitle="
+          new Number(
+            currentData.deaths ? currentData.deaths : 0
+          ).toLocaleString()
+        "
         chartSubtitle="decesos"
         highlightColor="#C33545"
       ></ColumnChart>
@@ -56,17 +64,17 @@ export default {
       sourceData: {},
       sourceTotalData: {},
       mostRecentDate: {},
-      currentData: {},
+      currentData: {}
     };
   },
   beforeMount() {
     // Request source data
-    this.fetchData("/data/mx_total_timeline.json").then((source) => {
+    this.fetchData("/data/mx_total_timeline.json").then(source => {
       // Keep local reference
       this.sourceTotalData = source;
 
       // Request source data
-      this.fetchData("/data/mx_timeline.json").then((_source) => {
+      this.fetchData("/data/mx_timeline.json").then(_source => {
         // Keep local reference
         this.sourceData = _source;
 
@@ -120,7 +128,7 @@ export default {
           month: "long",
           day: "numeric",
           hour: "2-digit",
-          minute: "2-digit",
+          minute: "2-digit"
         };
 
         // an application may want to use UTC and make that visible
@@ -129,8 +137,8 @@ export default {
 
         return new Date(buildTime).toLocaleString("es-MX", options);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

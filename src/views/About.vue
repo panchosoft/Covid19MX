@@ -45,7 +45,6 @@
       <ul
         class="list-group list-group-horizontal border-0 mx-auto justify-content-center"
       >
-
         <li class="list-group-item">
           <img
             src="/img/icons/aws.png"
@@ -86,7 +85,7 @@
   </main>
 </template>
 <style scoped>
-.about{
+.about {
   height: 100vh;
 }
 .list-group-item {

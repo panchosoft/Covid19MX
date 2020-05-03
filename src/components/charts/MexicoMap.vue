@@ -58,7 +58,7 @@ export default {
   methods: {
     fetchData: async function(url) {
       // Validate url is defined
-      if(!url) return;
+      if (!url) return;
 
       // Get source data
       const source = await fetch(url);
@@ -929,9 +929,11 @@ export default {
       //var suspectSeries = addSeries("suspect", "#c55");
 
       // adjust series names
-      confirmedSeries.tooltipText = "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n{confirmed} casos confirmados\n+{valueY.previousChange} nuevos[/]";
+      confirmedSeries.tooltipText =
+        "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n{confirmed} casos confirmados\n+{valueY.previousChange} nuevos[/]";
       confirmedSeries.legendSettings.labelText = "Confirmados";
-      deathsSeries.tooltipText = "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n{valueY} decesos\n+{valueY.previousChange} nuevos[/]";
+      deathsSeries.tooltipText =
+        "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n{valueY} decesos\n+{valueY.previousChange} nuevos[/]";
       deathsSeries.legendSettings.labelText = "Decesos";
 
       var series = { confirmed: confirmedSeries, deaths: deathsSeries };
