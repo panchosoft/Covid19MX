@@ -547,6 +547,9 @@ export default {
 
       // what to do when slider is dragged
       slider.events.on("rangechanged", () => {
+        // Fix issue with slider.start being NaN
+        if (!slider.start || isNaN(parseInt(slider.start))) slider.start = 1;
+
         var index = Math.round((covid_mx_timeline.length - 1) * slider.start);
 
         updateMapData(getSlideData(index).list);
