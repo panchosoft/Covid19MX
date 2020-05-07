@@ -143,9 +143,6 @@ export default {
 </script>
 
 <style scoped>
-.statistics {
-  height: 100vh;
-}
 .text-info {
   color: #0093d5 !important;
 }

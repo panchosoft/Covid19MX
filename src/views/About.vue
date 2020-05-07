@@ -85,9 +85,6 @@
   </main>
 </template>
 <style scoped>
-.about {
-  height: 100vh;
-}
 .list-group-item {
   border: none;
   padding-left: 10px;
