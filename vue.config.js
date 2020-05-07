@@ -1,4 +1,5 @@
 module.exports = {
+  productionSourceMap: false,
   pwa: {
     name: "COVID-19 MX",
     themeColor: "#232f3e",
