@@ -424,7 +424,7 @@ export default {
 
       // top title
       var title = mapChart.titles.create();
-      title.fontSize = this.isMobile ? "10px" : "12px";
+      title.fontSize = "12px";
       title.text = "Última actualización:\n" + this.getBuildTime();
       title.align = "left";
       title.horizontalCenter = "left";
@@ -1355,7 +1355,9 @@ export default {
       // updates country name and date
       function updateCountryName() {
         countryName.text =
+          "[bold]" +
           currentCountry +
+          "[/]" +
           (parentIsMobile ? "\n" : ", ") +
           mapChart.dateFormatter.format(currentDate, "MMMM dd, yyyy");
       }
@@ -1514,6 +1516,9 @@ export default {
 
       // Hide or adjust controls on small screens
       if (this.isMobile) {
+        // Last update label
+        title.fontSize = "0.9em";
+
         // Change UI elements
         container.padding(0, 0, 0, 0);
         buttonsContainer.padding(0, 0, 0, 0);
@@ -1532,7 +1537,7 @@ export default {
         // buttonsAndChartContainer.height = am4core.percent(48); // make this bigger if you want more space for the chart
 
         // Line chart/graph
-        lineChart.legend.fontSize = "10px";
+        lineChart.legend.fontSize = "0.9em";
         lineChart.fontSize = 10;
         // lineChart.numberFormatter.numberFormat = "#a";
         lineChart.padding(0, 0, 0, 0);
@@ -1547,11 +1552,11 @@ export default {
 
         // Buttons
         for (var b in buttons) {
-          buttons[b].fontSize = "0.8em";
+          buttons[b].fontSize = "0.9em";
         }
         countryName.fontSize = "0.9em";
-        absolutePerCapitaSwitch.leftLabel.fontSize = "0.8em";
-        absolutePerCapitaSwitch.rightLabel.fontSize = "0.8em";
+        absolutePerCapitaSwitch.leftLabel.fontSize = "0.9em";
+        absolutePerCapitaSwitch.rightLabel.fontSize = "0.9em";
         absolutePerCapitaSwitch.align = "right";
         absolutePerCapitaSwitch.y = 10;
         absolutePerCapitaSwitch.verticalCenter = "top";

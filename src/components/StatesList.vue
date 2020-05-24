@@ -50,6 +50,9 @@ export default {
       // Validate source data
       if (sourceData == null && sourceData.length == 0) return;
 
+      // Clear existing data
+      this.rows = [];
+
       // Pick first record
       var mostRecentDate = sourceData[0].date;
       var mostRecentObject = null;
