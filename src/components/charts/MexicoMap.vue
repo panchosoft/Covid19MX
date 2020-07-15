@@ -7,7 +7,6 @@
   width: 100%;
   height: 100% !important;
   min-height: 895px;
-  /* min-height: 100vh; */
 }
 @media (max-width: 768px) {
   #MexicoMap {
@@ -22,7 +21,9 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4lang_es_ES from "@amcharts/amcharts4/lang/es_ES";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
 am4core.useTheme(am4themes_animated);
+am4core.options.onlyShowOnViewport = false;
 
 import am4geodata_mexicoLow from "@amcharts/amcharts4-geodata/mexicoLow";
 
@@ -32,13 +33,13 @@ export default {
     return {
       covid_mx_timeline: {},
       covid_mx_total_timeline: {},
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
     };
   },
   // Pre-load data before rendering page
   mounted() {
     // Request source data
-    this.fetchData("/data/mx_timeline.json").then(source => {
+    this.fetchData("/data/mx_timeline.json").then((source) => {
       // Keep local reference
       this.covid_mx_timeline = source;
 
@@ -46,7 +47,7 @@ export default {
       this.$root.$emit("sendSourceData", this.covid_mx_timeline);
 
       // Request detailed source data
-      this.fetchData("/data/mx_total_timeline.json").then(_source => {
+      this.fetchData("/data/mx_total_timeline.json").then((_source) => {
         // Keep local reference
         this.covid_mx_total_timeline = _source;
 
@@ -56,7 +57,7 @@ export default {
     });
   },
   methods: {
-    fetchData: async function(url) {
+    fetchData: async function (url) {
       // Validate url is defined
       if (!url) return;
 
@@ -77,10 +78,10 @@ export default {
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", id => {
+      this.$root.$on("rollOverState", (id) => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", id => {
+      this.$root.$on("selectState", (id) => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
@@ -121,7 +122,7 @@ export default {
         "MX-TLA": 1274227,
         "MX-VER": 8127832,
         "MX-YUC": 2102359,
-        "MX-ZAC": 1581575
+        "MX-ZAC": 1581575,
       };
 
       var numberFormatter = new am4core.NumberFormatter();
@@ -314,7 +315,7 @@ export default {
         property: "fill",
         min: countryColor,
         max: countryColor,
-        dataField: "value"
+        dataField: "value",
       });
 
       // you can have pacific - centered map if you set this to -154.8
@@ -357,7 +358,7 @@ export default {
       imageTemplate.events.on("hit", handleImageHit);
 
       // this is needed for the tooltip to point to the top of the circle instead of the middle
-      imageTemplate.adapter.add("tooltipY", function(tooltipY, target) {
+      imageTemplate.adapter.add("tooltipY", function (tooltipY, target) {
         return -target.children.getIndex(0).radius;
       });
 
@@ -381,12 +382,12 @@ export default {
         property: "radius",
         min: 3,
         max: 30,
-        dataField: "value"
+        dataField: "value",
       });
 
       // when data items validated, hide 0 value bubbles (because min size is set)
-      bubbleSeries.events.on("dataitemsvalidated", function() {
-        bubbleSeries.dataItems.each(dataItem => {
+      bubbleSeries.events.on("dataitemsvalidated", function () {
+        bubbleSeries.dataItems.each((dataItem) => {
           var mapImage = dataItem.mapImage;
           var circle = mapImage.children.getIndex(0);
           if (mapImage.dataItem.value == 0) {
@@ -398,7 +399,7 @@ export default {
       });
 
       // this places bubbles at the visual center of a country
-      imageTemplate.adapter.add("latitude", function(latitude, target) {
+      imageTemplate.adapter.add("latitude", function (latitude, target) {
         var polygon = polygonSeries.getPolygonById(target.dataItem.id);
         if (polygon) {
           target.disabled = false;
@@ -409,7 +410,7 @@ export default {
         return latitude;
       });
 
-      imageTemplate.adapter.add("longitude", function(longitude, target) {
+      imageTemplate.adapter.add("longitude", function (longitude, target) {
         var polygon = polygonSeries.getPolygonById(target.dataItem.id);
         if (polygon) {
           target.disabled = false;
@@ -445,7 +446,7 @@ export default {
       //absolutePerCapitaSwitch.rightLabel.tooltipText = "When calculating max value, countries with population less than 100.000 are not included."
       absolutePerCapitaSwitch.verticalCenter = "top";
 
-      absolutePerCapitaSwitch.events.on("toggled", function() {
+      absolutePerCapitaSwitch.events.on("toggled", function () {
         if (absolutePerCapitaSwitch.isActive) {
           bubbleSeries.hide(0);
           perCapita = true;
@@ -474,7 +475,7 @@ export default {
             filterLabel.show();
           }
         }
-        polygonSeries.mapPolygons.each(function(mapPolygon) {
+        polygonSeries.mapPolygons.each(function (mapPolygon) {
           var ref = mapPolygon.fill;
           mapPolygon.fill = ref;
           mapPolygon.defaultState.properties.fill = undefined;
@@ -567,7 +568,7 @@ export default {
       var playButton = sliderContainer.createChild(am4core.PlayButton);
       playButton.valign = "middle";
       // play button behavior
-      playButton.events.on("toggled", function(event) {
+      playButton.events.on("toggled", function (event) {
         if (event.target.isActive) {
           play();
         } else {
@@ -591,7 +592,7 @@ export default {
       sizeSlider.opacity = 0.7;
       sizeSlider.start = this.isMobile ? 0.2 : 0.5;
       sizeSlider.background.fill = am4core.color("#ffffff");
-      sizeSlider.adapter.add("y", function() {
+      sizeSlider.adapter.add("y", function () {
         return (
           container.pixelHeight *
           (1 - buttonsAndChartContainer.percentHeight / 100) *
@@ -611,10 +612,10 @@ export default {
       ).properties.fill = confirmedColor;
       sizeSlider.horizontalCenter = "middle";
 
-      sizeSlider.events.on("rangechanged", function() {
+      sizeSlider.events.on("rangechanged", function () {
         sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
         bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
-        circle.clones.each(function(clone) {
+        circle.clones.each(function (clone) {
           var ref = clone.radius;
           clone.radius = ref;
         });
@@ -633,7 +634,7 @@ export default {
         x: 0,
         y: 0,
         width: 200000,
-        height: 200000
+        height: 200000,
       });
       sizeLabel.tooltip.label.wrap = true;
       sizeLabel.tooltip.label.maxWidth = 300;
@@ -641,7 +642,7 @@ export default {
         "Algunos estados tienen tantos casos que las burbujas para estados con valores más pequeños pueden llegar a verse iguales, incluso si hay una diferencia significativa entre ellos. Este control se puede utilizar para aumentar el tamaño máximo de una burbuja, de modo que cuando se acerca a una región con valores relativamente pequeños, se pueda comparar los casos más fácilmente.";
       sizeLabel.fill = am4core.color("#ffffff");
 
-      sizeLabel.adapter.add("y", function() {
+      sizeLabel.adapter.add("y", function () {
         return (
           container.pixelHeight *
           (1 - buttonsAndChartContainer.percentHeight / 100) *
@@ -661,7 +662,7 @@ export default {
       filterSlider.verticalCenter = "middle";
       filterSlider.opacity = 0.7;
       filterSlider.background.fill = am4core.color("#ffffff");
-      filterSlider.adapter.add("y", function() {
+      filterSlider.adapter.add("y", function () {
         return (
           container.pixelHeight *
           (1 - buttonsAndChartContainer.percentHeight / 100) *
@@ -682,11 +683,11 @@ export default {
       filterSlider.horizontalCenter = "middle";
       filterSlider.start = 1;
 
-      filterSlider.events.on("rangechanged", function() {
+      filterSlider.events.on("rangechanged", function () {
         var maxValue = max[currentType] * filterSlider.start + 1;
         if (!isNaN(maxValue) && bubbleSeries.inited) {
           bubbleSeries.heatRules.getIndex(0).maxValue = maxValue;
-          circle.clones.each(function(clone) {
+          circle.clones.each(function (clone) {
             if (clone.dataItem.value > maxValue) {
               clone.dataItem.hide();
             } else {
@@ -714,7 +715,7 @@ export default {
         "Este filtro permite esconder estados con muchos casos para que sea posible comparar los estados con un número menor de casos.";
       filterLabel.fill = am4core.color("#ffffff");
 
-      filterLabel.adapter.add("y", function() {
+      filterLabel.adapter.add("y", function () {
         return (
           container.pixelHeight *
           (1 - buttonsAndChartContainer.percentHeight / 100) *
@@ -807,14 +808,14 @@ export default {
       valueAxis.renderer.labels.template.verticalCenter = "bottom";
       valueAxis.renderer.labels.template.fill = am4core.color("#ffffff");
       valueAxis.renderer.labels.template.padding(2, 2, 2, 2);
-      valueAxis.adapter.add("max", function(max) {
+      valueAxis.adapter.add("max", function (max) {
         if (max < 5) {
           max = 5;
         }
         return max;
       });
 
-      valueAxis.adapter.add("min", function(min) {
+      valueAxis.adapter.add("min", function (min) {
         if (!seriesTypeSwitch.isActive) {
           if (min < 0) {
             min = 0;
@@ -857,11 +858,11 @@ export default {
       lineChart.legend.itemContainers.template.valign = "middle";
       var legendDown = false;
 
-      lineChart.legend.itemContainers.template.events.on("down", function() {
+      lineChart.legend.itemContainers.template.events.on("down", function () {
         legendDown = true;
       });
-      lineChart.legend.itemContainers.template.events.on("up", function() {
-        setTimeout(function() {
+      lineChart.legend.itemContainers.template.events.on("up", function () {
+        setTimeout(function () {
           legendDown = false;
         }, 100);
       });
@@ -872,16 +873,16 @@ export default {
       seriesTypeSwitch.leftLabel.fill = am4core.color("#ffffff");
       seriesTypeSwitch.rightLabel.fill = am4core.color("#ffffff");
 
-      seriesTypeSwitch.events.on("down", function() {
+      seriesTypeSwitch.events.on("down", function () {
         legendDown = true;
       });
-      seriesTypeSwitch.events.on("up", function() {
-        setTimeout(function() {
+      seriesTypeSwitch.events.on("up", function () {
+        setTimeout(function () {
           legendDown = false;
         }, 100);
       });
 
-      seriesTypeSwitch.events.on("toggled", function() {
+      seriesTypeSwitch.events.on("toggled", function () {
         if (seriesTypeSwitch.isActive) {
           if (!columnSeries) {
             createColumnSeries();
@@ -1028,7 +1029,7 @@ export default {
         return series;
       }
 
-      lineChart.plotContainer.events.on("up", function() {
+      lineChart.plotContainer.events.on("up", function () {
         if (!legendDown) {
           slider.start =
             lineChart.cursor.xPosition *
@@ -1133,11 +1134,11 @@ export default {
         bubbleSeries.dataFields.value = name;
         polygonSeries.dataFields.value = name + "PC";
 
-        bubbleSeries.dataItems.each(function(dataItem) {
+        bubbleSeries.dataItems.each(function (dataItem) {
           dataItem.setValue("value", dataItem.dataContext[currentType]);
         });
 
-        polygonSeries.dataItems.each(function(dataItem) {
+        polygonSeries.dataItems.each(function (dataItem) {
           dataItem.setValue("value", dataItem.dataContext[currentType + "PC"]);
           dataItem.mapPolygon.defaultState.properties.fill = undefined;
         });
@@ -1192,7 +1193,7 @@ export default {
       }
 
       // select a country
-      var selectCountry = function(mapPolygon) {
+      var selectCountry = function (mapPolygon) {
         resetHover();
         polygonSeries.hideTooltip();
         if (!mapPolygon) return;
@@ -1210,7 +1211,7 @@ export default {
         currentCountry = mapPolygon.dataItem.dataContext.name;
 
         // make others inactive
-        polygonSeries.mapPolygons.each(function(polygon) {
+        polygonSeries.mapPolygons.each(function (polygon) {
           polygon.isActive = false;
         });
 
@@ -1219,7 +1220,7 @@ export default {
           clearTimeout(countryDataTimeout);
         }
         // we delay change of data for better performance (so that data is not changed whil zooming)
-        countryDataTimeout = setTimeout(function() {
+        countryDataTimeout = setTimeout(function () {
           setCountryData(countryIndex);
         }, 1000); // you can adjust number, 1000 is one second
 
@@ -1232,7 +1233,7 @@ export default {
         mapChart.zoomToMapObject(mapPolygon, getZoomLevel(mapPolygon));
 
         // Show tooltip after selecting the state
-        setTimeout(function() {
+        setTimeout(function () {
           rollOverCountry(mapPolygon);
         }, 1000);
       };
@@ -1275,7 +1276,7 @@ export default {
         if (position >= 0.95) x = x + 30;
 
         lineChart.cursor.triggerMove({ x: x, y: 0 }, "soft", true);
-        lineChart.series.each(function(series) {
+        lineChart.series.each(function (series) {
           if (!series.isHidden) {
             series.tooltip.disabled = false;
             series.showTooltipAtDataItem(series.tooltipDataItem);
@@ -1284,7 +1285,7 @@ export default {
       }
 
       // what happens when a country is rolled-over
-      var rollOverCountry = function(mapPolygon) {
+      var rollOverCountry = function (mapPolygon) {
         resetHover();
         if (mapPolygon) {
           mapPolygon.isHover = true;
@@ -1330,7 +1331,7 @@ export default {
         }
 
         // make all inactive
-        polygonSeries.mapPolygons.each(function(polygon) {
+        polygonSeries.mapPolygons.each(function (polygon) {
           polygon.isActive = false;
         });
 
@@ -1409,7 +1410,7 @@ export default {
       // update map data
       function updateMapData(data) {
         //modifying instead of setting new data for a nice animation
-        bubbleSeries.dataItems.each(function(dataItem) {
+        bubbleSeries.dataItems.each(function (dataItem) {
           dataItem.dataContext.confirmed = 0;
           dataItem.dataContext.deaths = 0;
         });
@@ -1480,16 +1481,16 @@ export default {
       }
 
       function resetHover() {
-        polygonSeries.mapPolygons.each(function(polygon) {
+        polygonSeries.mapPolygons.each(function (polygon) {
           polygon.isHover = false;
         });
 
-        bubbleSeries.mapImages.each(function(image) {
+        bubbleSeries.mapImages.each(function (image) {
           image.isHover = false;
         });
       }
 
-      container.events.on("layoutvalidated", function() {
+      container.events.on("layoutvalidated", function () {
         dateAxis.tooltip.hide();
         lineChart.cursor.hide();
         updateTotals(currentIndex);
@@ -1595,7 +1596,7 @@ export default {
         //lineChart.legend.hide();
         container.exporting.menu.dispose();
       }
-    }
+    },
   },
 
   // Dispose resources
@@ -1604,6 +1605,6 @@ export default {
       this.container.dispose();
       am4core.disposeAllCharts();
     }
-  }
+  },
 };
 </script>

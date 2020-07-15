@@ -14,10 +14,10 @@ module.exports = {
       favicon16: "img/icons/favicon-16x16.png",
       appleTouchIcon: "img/icons/apple-touch-icon-152x152.png",
       maskIcon: "img/icons/safari-pinned-tab.svg",
-      msTileImage: "img/icons/msapplication-icon-150x150.png"
+      msTileImage: "img/icons/msapplication-icon-150x150.png",
     },
     workboxOptions: {
-      skipWaiting: true
+      skipWaiting: true,
       // runtimeCaching: [
       //   {
       //     urlPattern: "/data/",
@@ -35,7 +35,7 @@ module.exports = {
       //     },
       //   },
       // ]
-    }
+    },
   },
   configureWebpack: {
     // optimization: {
@@ -44,5 +44,5 @@ module.exports = {
     //     maxSize: 250000
     //   }
     // }
-  }
+  },
 };

@@ -10,7 +10,7 @@ csv()
     )
   )
   // Parse resulting JSON object
-  .then(jsonObj => {
+  .then((jsonObj) => {
     // Debug message
     console.log("CSV source file obtained successfully.");
 
@@ -51,7 +51,7 @@ csv()
       "MX-TLA": "TLA",
       "MX-VER": "VER",
       "MX-YUC": "YUC",
-      "MX-ZAC": "ZAC"
+      "MX-ZAC": "ZAC",
     };
 
     // Iterate source data
@@ -74,7 +74,7 @@ csv()
         // Create resulting row object
         var resultsByDateObject = {
           date: currentRow.Fecha,
-          list: []
+          list: [],
         };
         for (var stateKey in MexicoStatesKeyMap) {
           resultsByDateObject.list.push({
@@ -90,7 +90,7 @@ csv()
             recovered: parseInt(
               currentRow[MexicoStatesKeyMap[stateKey] + "_R"]
             ),
-            suspect: parseInt(currentRow[MexicoStatesKeyMap[stateKey] + "_S"])
+            suspect: parseInt(currentRow[MexicoStatesKeyMap[stateKey] + "_S"]),
           });
         }
         // Add to result array
@@ -134,7 +134,7 @@ csv()
           suspect: parseInt(currentRow.Susp),
           suspect_official: parseInt(currentRow.Susp_rep),
           tested: parseInt(currentRow.Tested_tot),
-          negative: parseInt(currentRow.Neg_rep)
+          negative: parseInt(currentRow.Neg_rep),
         });
       }
     }
@@ -147,7 +147,7 @@ csv()
     fs.writeFile(
       "public/data/mx_total_timeline.json",
       JSON.stringify(mx_total_timeline),
-      function(err) {
+      function (err) {
         if (err) return console.log(err);
         else
           console.log(
@@ -160,7 +160,7 @@ csv()
     fs.writeFile(
       "public/data/mx_timeline.json",
       JSON.stringify(mx_timeline),
-      function(err) {
+      function (err) {
         if (err) return console.log(err);
         else console.log("OK: mx_timeline > public/data/mx_timeline.json");
       }

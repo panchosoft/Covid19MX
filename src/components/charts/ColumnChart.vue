@@ -21,14 +21,15 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4lang_es_ES from "@amcharts/amcharts4/lang/es_ES";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-// am4core.options.queue = true;
+//  am4core.options.queue = true;
 // am4core.options.viewportTarget = document.getElementById("chartsContainer")
 // if(!am4core.options.onlyShowOnViewport)
 // am4core.options.onlyShowOnViewport = true;
 
-// am4core.useTheme(am4themes_animated);
+am4core.useTheme(am4themes_animated);
+am4core.options.onlyShowOnViewport = true;
 
 export default {
   name: "ColumnChart",
@@ -38,24 +39,24 @@ export default {
     "title",
     "chartTitle",
     "chartSubtitle",
-    "highlightColor"
+    "highlightColor",
   ],
   watch: {
-    sourceData: function(newSource) {
+    sourceData: function (newSource) {
       // If new source is defined
       if (newSource && newSource.length > 0) this.renderGraph();
     },
-    chartTitle: function(newTitle) {
+    chartTitle: function (newTitle) {
       if (this.mainTitle && newTitle) this.mainTitle.text = newTitle;
     },
-    chartSubtitle: function(newSubtitle) {
+    chartSubtitle: function (newSubtitle) {
       if (this.mainSubtitle && newSubtitle)
         this.mainSubtitle.text = newSubtitle;
-    }
+    },
   },
   data() {
     return {
-      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches
+      isMobile: window.matchMedia("only screen and (max-width: 768px)").matches,
     };
   },
   mounted() {
@@ -184,13 +185,13 @@ export default {
       this.chart = chart;
       this.mainTitle = mainTitle;
       this.mainSubtitle = subTitle;
-    }
+    },
   },
   // Dispose resources
   beforeDestroy() {
     if (this.chart) {
       this.chart.dispose();
     }
-  }
+  },
 };
 </script>

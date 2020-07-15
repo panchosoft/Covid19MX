@@ -22,8 +22,8 @@ export default {
   name: "Home",
   components: {
     StatesList,
-    MexicoMap
-  }
+    MexicoMap,
+  },
 };
 </script>
 

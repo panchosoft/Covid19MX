@@ -4,7 +4,7 @@
       :columns="columns"
       :rows="rows"
       :search-options="{
-        enabled: true
+        enabled: true,
       }"
       theme="nocturnal"
       styleClass="vgt-table condensed"
@@ -12,7 +12,7 @@
       @on-row-mouseenter="onRowMouseEnter"
       :sort-options="{
         enabled: true,
-        initialSortBy: { field: 'confirmed', type: 'desc' }
+        initialSortBy: { field: 'confirmed', type: 'desc' },
       }"
     >
       <template slot="table-column" slot-scope="props">
@@ -35,11 +35,11 @@ import { VueGoodTable } from "vue-good-table";
 export default {
   name: "StatesList",
   components: {
-    VueGoodTable
+    VueGoodTable,
   },
   mounted() {
     // Enable communication with map to receive source json data
-    this.$root.$on("sendSourceData", json => {
+    this.$root.$on("sendSourceData", (json) => {
       this.copySourceData(json);
     });
   },
@@ -103,24 +103,24 @@ export default {
           id: mostRecentObject.list[i].id,
           state: MexicoStatesKeyMap[mostRecentObject.list[i].id],
           confirmed: parseInt(mostRecentObject.list[i].confirmed),
-          deaths: parseInt(mostRecentObject.list[i].deaths)
+          deaths: parseInt(mostRecentObject.list[i].deaths),
         });
       }
     },
     // On state list click event
-    onRowClick: function(params) {
+    onRowClick: function (params) {
       if (params && params.row) this.$root.$emit("selectState", params.row.id);
 
       // Scroll to the map after selecting a state
       document.getElementById("app").scrollIntoView();
     },
     // On row mouse enter in state list
-    onRowMouseEnter: function(params) {
+    onRowMouseEnter: function (params) {
       if (params && params.row)
         this.$root.$emit("rollOverState", params.row.id);
-    }
+    },
   },
-  data: function() {
+  data: function () {
     return {
       filter: "",
       columns: [
@@ -132,18 +132,18 @@ export default {
           type: "number",
           align: "right",
           thClass: "grey-column",
-          tdClass: "grey-column"
+          tdClass: "grey-column",
         },
         {
           label: "Decesos",
           field: "deaths",
           type: "number",
-          align: "right"
-        }
+          align: "right",
+        },
       ],
-      rows: []
+      rows: [],
     };
-  }
+  },
 };
 </script>
 <style>

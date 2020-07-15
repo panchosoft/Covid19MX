@@ -103,9 +103,9 @@
 <script>
 export default {
   name: "About",
-  data: function() {
+  data: function () {
     return {
-      buildDateTime: this.getBuildTime()
+      buildDateTime: this.getBuildTime(),
     };
   },
   methods: {
@@ -116,7 +116,7 @@ export default {
       if (buildTime) {
         return new Date(buildTime).toLocaleString();
       }
-    }
-  }
+    },
+  },
 };
 </script>
