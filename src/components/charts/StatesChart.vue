@@ -106,15 +106,21 @@ export default {
       series.name = "Visits";
       series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
       series.columns.template.fillOpacity = 0.8;
+      series.columns.template.stro = this.highlightColor;
       // Rounded corners
       series.columns.template.column.cornerRadiusTopLeft = 2;
       series.columns.template.column.cornerRadiusTopRight = 2;
 
+      series.tooltip.autoTextColor = false;
       series.tooltip.pointerOrientation = "down";
       series.tooltip.autoTextColor = false;
       series.tooltip.label.fill = am4core.color("#000");
       series.tooltip.background.fill = am4core.color("#FFFFFF");
       series.columns.template.tooltipY = -25;
+
+            series.fill = this.highlightColor;
+      series.stroke = this.highlightColor;
+      series.fillOpacity = 0.6;
 
       // Sort
       categoryAxis.sortBySeries = series;

@@ -3,22 +3,22 @@
     <div class="container">
       <h1 class="pt-3 text-center">Estad&iacute;sticas</h1>
       <p class="lead mt-3 text-center">
-        En <span class="font-weight-bold text-info">M&eacute;xico</span>, al
-        <span class="font-weight-bold text-info">{{ buildDateTime }}</span
+        En <span class="font-weight-bold text-danger">M&eacute;xico</span>, al
+        <span class="font-weight-bold text-danger">{{ buildDateTime }}</span
         >, se han detectado
-        <span class="font-weight-bold text-info"
+        <span class="font-weight-bold text-danger"
           >{{
             currentData.confirmed ? currentData.confirmed.toLocaleString() : 0
           }}
           casos confirmados</span
         >
         de COVID-19, incluyendo
-        <span class="font-weight-bold text-danger"
+        <span class="font-weight-bold text-info"
           >{{
             currentData.deaths ? currentData.deaths.toLocaleString() : 0
           }}
-          defunciones</span
-        >
+          defunciones
+        </span>
         reportadas por la Secretar&iacute;a de Salud y el Gobierno Federal.
       </p>
     </div>
@@ -33,9 +33,10 @@
           ).toLocaleString()
         "
         chartSubtitle="casos confirmados"
-        highlightColor="#0093D5"
+        highlightColor="#d21a1a"
       ></ColumnChart>
       <div class="mt-5"></div>
+      <br />
       <ColumnChart
         title="Defunciones confirmadas en el tiempo"
         :sourceData="sourceTotalData"
@@ -46,14 +47,14 @@
           ).toLocaleString()
         "
         chartSubtitle="decesos"
-        highlightColor="#C33545"
+        highlightColor="#1c5fe5"
       ></ColumnChart>
       <div class="mt-5"></div>
       <StatesChart
         title="Casos confirmados por estado"
         :sourceData="this.statesData"
         sourceField="confirmed"
-        highlightColor="#C33545"
+        highlightColor="#ffffff"
       ></StatesChart>
     </div>
   </main>
@@ -212,5 +213,11 @@ export default {
 <style scoped>
 .text-info {
   color: #0093d5 !important;
+}
+.text-confirmed {
+  color: #d21a1a !important;
+}
+.text-deceased {
+  color: #1c5fe5 !important;
 }
 </style>

@@ -127,7 +127,7 @@ export default {
 
       var numberFormatter = new am4core.NumberFormatter();
 
-      var backgroundColor = am4core.color("#1e2128");
+      // var backgroundColor = am4core.color("#1e2128");
       var confirmedColor = am4core.color("#d21a1a");
       var deathsColor = am4core.color("#1c5fe5");
 
@@ -785,9 +785,9 @@ export default {
       dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
 
       /*
-  dateAxis.renderer.labels.template.adapter.add("fillOpacity", function(fillOpacity, target){
-      return dateAxis.valueToPosition(target.dataItem.value) + 0.1;
-  })*/
+      dateAxis.renderer.labels.template.adapter.add("fillOpacity", function(fillOpacity, target){
+          return dateAxis.valueToPosition(target.dataItem.value) + 0.1;
+      })*/
 
       // value axis
       // https://www.amcharts.com/docs/v4/concepts/axes/value-axis/
@@ -804,7 +804,7 @@ export default {
       valueAxis.tooltip.disabled = true;
       valueAxis.extraMax = 0.05;
       valueAxis.maxPrecision = 0;
-      valueAxis.renderer.inside = true;
+
       valueAxis.renderer.labels.template.verticalCenter = "bottom";
       valueAxis.renderer.labels.template.fill = am4core.color("#ffffff");
       valueAxis.renderer.labels.template.padding(2, 2, 2, 2);
@@ -948,7 +948,7 @@ export default {
         series.dataFields.valueY = name;
         series.dataFields.dateX = "date";
         series.name = capitalizeFirstLetter(name);
-        series.strokeOpacity = 0.9;
+        series.strokeOpacity = 1;
         series.stroke = color;
         series.fill = color;
         series.maskBullets = false;
@@ -956,21 +956,27 @@ export default {
         series.hidden = true;
         series.hideTooltipWhileZooming = true;
 
+        // disable animations
+        series.hiddenState.transitionDuration = 0;
+        series.defaultState.transitionDuration = 0;
+        series.sequencedInterpolation = false;
+        series.interpolationDuration = 0;
+
         // series bullet
-        var bullet = series.bullets.push(new am4charts.CircleBullet());
+        // var bullet = series.bullets.push(new am4charts.CircleBullet());
 
-        // only needed to pass it to circle
-        //   var bulletHoverState = bullet.states.create("hover");
-        bullet.setStateOnChildren = true;
+        // // only needed to pass it to circle
+        // //   var bulletHoverState = bullet.states.create("hover");
+        // bullet.setStateOnChildren = true;
 
-        bullet.circle.fillOpacity = 1;
-        bullet.circle.fill = backgroundColor;
-        bullet.circle.radius = 2;
+        // bullet.circle.fillOpacity = 1;
+        // bullet.circle.fill = backgroundColor;
+        // bullet.circle.radius = 2;
 
-        var circleHoverState = bullet.circle.states.create("hover");
-        circleHoverState.properties.fillOpacity = 1;
-        circleHoverState.properties.fill = color;
-        circleHoverState.properties.scale = 1.4;
+        // var circleHoverState = bullet.circle.states.create("hover");
+        // circleHoverState.properties.fillOpacity = 1;
+        // circleHoverState.properties.fill = color;
+        // circleHoverState.properties.scale = 1.4;
 
         // tooltip setup
         series.tooltip.pointerOrientation = "down";
@@ -999,7 +1005,7 @@ export default {
 
       // add series
       function addColumnSeries(name, color) {
-        var series = lineChart.series.push(new am4charts.ColumnSeries());
+        var series = lineChart.series.push(new am4charts.StepLineSeries());
         series.dataFields.valueY = name;
         series.dataFields.valueYShow = "previousChange";
         series.dataFields.dateX = "date";
@@ -1007,12 +1013,20 @@ export default {
         series.hidden = true;
         series.stroke = color;
         series.fill = color;
-        series.columns.template.fillOpacity = 0.6;
-        series.columns.template.strokeOpacity = 0;
+        // series.columns.template.fillOpacity = 0.8;
+        // series.columns.template.strokeOpacity = 0;
+        series.fillOpacity = 0.6;
+        series.strokeOpacity = 0;
         series.hideTooltipWhileZooming = true;
         series.clustered = false;
         series.hiddenInLegend = true;
-        series.columns.template.width = am4core.percent(50);
+        // series.columns.template.width = am4core.percent(50);
+
+        // disable animations
+        series.hiddenState.transitionDuration = 0;
+        series.defaultState.transitionDuration = 0;
+        series.sequencedInterpolation = false;
+        series.interpolationDuration = 0;
 
         // tooltip setup
         series.tooltip.pointerOrientation = "down";

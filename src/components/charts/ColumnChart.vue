@@ -87,14 +87,14 @@ export default {
 
       // Labels
       var mainTitle = chart.createChild(am4core.Label);
-      mainTitle.fontSize = 60;
+      mainTitle.fontSize = 50;
       mainTitle.text = this.chartTitle;
       mainTitle.align = "left";
       mainTitle.paddingLeft = 0;
       mainTitle.paddingBottom = 1;
       mainTitle.fill = am4core.color("#ffffff");
       mainTitle.isMeasured = false;
-      mainTitle.y = 20;
+      mainTitle.y = 5;
 
       var subTitle = chart.createChild(am4core.Label);
       subTitle.fontSize = 20;
@@ -104,7 +104,7 @@ export default {
       // subTitle.paddingBottom = 1;
       subTitle.fill = am4core.color("#ffffff");
       subTitle.isMeasured = false;
-      subTitle.y = 85;
+      subTitle.y = 60;
 
       // Create axes
       var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -130,53 +130,64 @@ export default {
       valueAxis.cursorTooltipEnabled = false;
 
       // Create series
-      var series = chart.series.push(new am4charts.ColumnSeries());
+      var series = chart.series.push(new am4charts.StepLineSeries());
       series.dataFields.valueY = this.sourceField;
       series.dataFields.dateX = "date";
       series.name = "series";
-      series.columns.template.dateFormatter.dateFormat = "MM-dd";
-      series.columns.template.tooltipText =
-        "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n[bold " +
-        this.highlightColor +
-        "]{valueY}[/] " +
+      series.dateFormatter.dateFormat = "MM-dd";
+      series.tooltipText =
+        "[bold]{dateX.formatDate('MMMM d, YYYY')}[/]\n[bold]{valueY}[/] " +
         this.chartSubtitle +
-        "\n[bold #" +
-        this.highlightColor +
-        "]+{valueY.previousChange}[/] casos nuevos";
+        "\n[bold]+{valueY.previousChange}[/] casos nuevos";
       series.tooltip.pointerOrientation = "down";
       series.tooltip.autoTextColor = false;
-      series.tooltip.label.fill = am4core.color("#000");
-      series.tooltip.background.fill = am4core.color("#FFFFFF");
-      series.columns.template.tooltipY = -5;
-      series.columns.template.fillOpacity = 1;
-      series.columns.template.width = am4core.percent(100);
+      series.tooltip.label.fill = am4core.color("#ffffff");
+      // series.tooltip.background.fill = am4core.color("#ffffff");
+      // series.columns.template.tooltipY = -5;
+      // series.columns.template.fillOpacity = 1;
+      // series.columns.template.width = am4core.percent(100);
+
+      // disable animations
+      // series.hiddenState.transitionDuration = 0;
+      // series.defaultState.transitionDuration = 0;
+      // series.sequencedInterpolation = false;
+      // series.interpolationDuration = 0;
 
       // Rounded corners
-      series.columns.template.column.cornerRadiusTopLeft = 2;
-      series.columns.template.column.cornerRadiusTopRight = 2;
+      // series.columns.template.column.cornerRadiusTopLeft = 2;
+      // series.columns.template.column.cornerRadiusTopRight = 2;
+
+      // Tooltip background
+      series.tooltip.getStrokeFromObject = true;
+      series.tooltip.getFillFromObject = false;
+      series.tooltip.background.fillOpacity = 0.2;
+      series.tooltip.background.fill = am4core.color("#000000");
+      series.tooltip.fontSize = "0.8em";
 
       // Accumulated value
       series.dataFields.valueYShow = "previousChange";
       series.clustered = false;
 
-      var columnTemplate = series.columns.template;
-      columnTemplate.strokeWidth = 1;
-      columnTemplate.strokeOpacity = 1;
-      series.columns.template.fill = am4core.color("#eaeaea");
-      series.columns.template.stroke = am4core.color("#eaeaea");
+      // var columnTemplate = series.columns.template;
+      // columnTemplate.strokeWidth = 1;
+      // columnTemplate.strokeOpacity = 1;
+      series.fill = this.highlightColor;
+      series.stroke = this.highlightColor;
+      series.fillOpacity = 0.6;
 
-      var hoverState = series.columns.template.states.create("hover");
-      hoverState.properties.fill = am4core.color(this.highlightColor);
-      hoverState.properties.stroke = am4core.color(this.highlightColor);
+      // var hoverState = series.columns.template.states.create("hover");
+      // hoverState.properties.fill = am4core.color(this.highlightColor);
+      // hoverState.properties.stroke = am4core.color(this.highlightColor);
 
       // Small screens config
       if (this.isMobile) {
         // Rounded corners
-        series.columns.template.column.cornerRadiusTopLeft = 1;
-        series.columns.template.column.cornerRadiusTopRight = 1;
+        // series.columns.template.column.cornerRadiusTopLeft = 1;
+        // series.columns.template.column.cornerRadiusTopRight = 1;
 
-        mainTitle.fontSize = 50;
+        mainTitle.fontSize = 40;
         subTitle.fontSize = 15;
+        subTitle.y = 45;
         // chart.tapToActivate = true;
         // chart.responsive.enabled = true;
       }
