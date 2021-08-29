@@ -118,7 +118,7 @@ export default {
       series.tooltip.background.fill = am4core.color("#FFFFFF");
       series.columns.template.tooltipY = -25;
 
-            series.fill = this.highlightColor;
+      series.fill = this.highlightColor;
       series.stroke = this.highlightColor;
       series.fillOpacity = 0.6;
 

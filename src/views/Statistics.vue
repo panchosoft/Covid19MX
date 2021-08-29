@@ -14,9 +14,7 @@
         >
         de COVID-19, incluyendo
         <span class="font-weight-bold text-info"
-          >{{
-            currentData.deaths ? currentData.deaths.toLocaleString() : 0
-          }}
+          >{{ currentData.deaths ? currentData.deaths.toLocaleString() : 0 }}
           defunciones
         </span>
         reportadas por la Secretar&iacute;a de Salud y el Gobierno Federal.
