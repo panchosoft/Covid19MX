@@ -1023,10 +1023,10 @@ export default {
         // series.columns.template.width = am4core.percent(50);
 
         // disable animations
-        series.hiddenState.transitionDuration = 0;
-        series.defaultState.transitionDuration = 0;
-        series.sequencedInterpolation = false;
-        series.interpolationDuration = 0;
+        // series.hiddenState.transitionDuration = 0;
+        // series.defaultState.transitionDuration = 0;
+        // series.sequencedInterpolation = false;
+        // series.interpolationDuration = 0;
 
         // tooltip setup
         series.tooltip.pointerOrientation = "down";
