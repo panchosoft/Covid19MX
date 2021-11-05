@@ -63,7 +63,7 @@ import ColumnChart from "@/components/charts/ColumnChart.vue";
 import StatesChart from "@/components/charts/StatesChart.vue";
 
 export default {
-  name: "Statistics",
+  name: "StatisticsView",
   components: { ColumnChart, StatesChart },
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
       statesData: {},
     };
   },
-  beforeMount() {
+  mounted() {
     // Request source data
     this.fetchData("/data/mx_total_timeline.json").then((source) => {
       // Keep local reference

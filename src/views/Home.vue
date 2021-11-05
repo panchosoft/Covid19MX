@@ -19,7 +19,7 @@ import StatesList from "@/components/StatesList.vue";
 import MexicoMap from "@/components/charts/MexicoMap.vue";
 
 export default {
-  name: "Home",
+  name: "HomeView",
   components: {
     StatesList,
     MexicoMap,
