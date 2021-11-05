@@ -102,7 +102,7 @@
 </style>
 <script>
 export default {
-  name: "About",
+  name: "AboutView",
   data: function () {
     return {
       buildDateTime: this.getBuildTime(),
