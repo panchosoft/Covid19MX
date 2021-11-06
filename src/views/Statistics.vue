@@ -3,17 +3,17 @@
     <div class="container">
       <h1 class="pt-3 text-center">Estad&iacute;sticas</h1>
       <p class="lead mt-3 text-center">
-        En <span class="font-weight-bold text-danger">M&eacute;xico</span>, al
-        <span class="font-weight-bold text-danger">{{ buildDateTime }}</span
+        En <span class="fw-bold text-danger">M&eacute;xico</span>, al
+        <span class="fw-bold text-danger">{{ buildDateTime }}</span
         >, se han detectado
-        <span class="font-weight-bold text-danger"
+        <span class="fw-bold text-danger"
           >{{
             currentData.confirmed ? currentData.confirmed.toLocaleString() : 0
           }}
           casos confirmados</span
         >
         de COVID-19, incluyendo
-        <span class="font-weight-bold text-info"
+        <span class="fw-bold text-info"
           >{{ currentData.deaths ? currentData.deaths.toLocaleString() : 0 }}
           defunciones
         </span>
@@ -217,5 +217,8 @@ export default {
 }
 .text-deceased {
   color: #1c5fe5 !important;
+}
+.container {
+    max-width: 1150px;
 }
 </style>

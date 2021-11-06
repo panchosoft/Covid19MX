@@ -99,6 +99,9 @@
   width: 70px !important;
   height: 26px !important;
 }
+.container {
+    max-width: 1150px;
+}
 </style>
 <script>
 export default {

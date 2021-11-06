@@ -1,10 +1,69 @@
 <template>
-  <div>
-    <nav class="navbar navbar-dark navbar-expand-lg invisible py-0 py-md-0">
+  <div class="">
+    <nav class="navbar navbar-expand-lg navbar-dark py-0 fixed-top sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
+        <button
+          class="navbar-toggler position-relative shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <!-- <span class="navbar-toggler-icon"></span> -->
+                  <span> </span>
+        <span> </span>
+        <span> </span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarTogglerDemo02"
+          ref="navbarTogglerDemo02"
+        >
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                to="/"
+                @click.native="toggleNavbar()"
+                >Inicio <span class="sr-only">(current)</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                @click.native="toggleNavbar()"
+                to="/statistics"
+              >
+                Estad&iacute;sticas</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                @click.native="toggleNavbar()"
+                to="/about"
+                >Acerca de</router-link
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <nav class="navbar navbar-dark navbar-expand-lg invisible py-0 py-md-0">
       <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
     </nav>
     <nav
-      class="navbar navbar-dark fixed-top navbar-expand-lg py-0 py-md-0 navbar-toggleable-sm"
+      class="
+        navbar navbar-dark
+        fixed-top
+        navbar-expand-lg
+        py-0
+        navbar-toggleable-sm
+      "
     >
       <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
       <button
@@ -49,13 +108,18 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </nav> -->
   </div>
 </template>
 
 <script>
 export default {
   name: "NavbarComponent",
+  methods: {
+    toggleNavbar() {
+      this.$refs.navbarTogglerDemo02.classList.toggle("show");
+    },
+  },
 };
 </script>
 
@@ -68,7 +132,7 @@ export default {
 }
 .navbar-toggler:focus,
 .navbar-toggler:active {
-  outline: 0;
+  outline: 0 !important;
 }
 .navbar-dark .navbar-toggler {
   color: #ffffff;

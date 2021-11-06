@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="container-fluid pl-0 pr-0">
-      <div class="row ml-0 mr-0">
-        <div class="col-lg-9 pl-0 pr-0">
+    <div class="container-fluid px-0 mx-0">
+      <div class="row mx-0">
+        <div class="col-lg-9 px-0">
           <MexicoMap />
         </div>
         <div class="col-lg-3 state-list-container px-0">
