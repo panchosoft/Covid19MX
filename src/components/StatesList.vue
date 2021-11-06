@@ -157,11 +157,12 @@ export default {
     margin-top: 10px;
   }
   table.vgt-table {
-    font-size: 12px !important;
+    font-size: 14px !important;
     border-collapse: collapse;
+    line-height: 20px;
   }
   .vgt-table.nocturnal thead th {
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-style: normal;
     font-weight: normal;
   }

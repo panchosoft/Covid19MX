@@ -4,11 +4,12 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="#">COVID-19 M&eacute;xico</a>
         <button
-          class="navbar-toggler position-relative shadow-none"
+          class="navbar-toggler position-relative shadow-none collapsed"
           type="button"
+          ref="navbarToggler"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02"
+          data-bs-target="#navbarTogglerContainer"
+          aria-controls="navbarTogglerContainer"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
@@ -19,8 +20,8 @@
         </button>
         <div
           class="collapse navbar-collapse"
-          id="navbarTogglerDemo02"
-          ref="navbarTogglerDemo02"
+          id="navbarTogglerContainer"
+          ref="navbarTogglerContainer"
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -117,7 +118,8 @@ export default {
   name: "NavbarComponent",
   methods: {
     toggleNavbar() {
-      this.$refs.navbarTogglerDemo02.classList.toggle("show");
+      this.$refs.navbarTogglerContainer.classList.toggle("show");
+      this.$refs.navbarToggler.classList.toggle("collapsed");
     },
   },
 };
