@@ -1,6 +1,4 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: CI
 
 on:
@@ -11,7 +9,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,11 +36,10 @@ jobs:
       with:
         name: dist
         path: dist
-        retention-days: 2
+        retention-days: 1
 
-  deploy:
+  deploy-to-s3:
     needs: build
-    name: Upload to Amazon S3
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -54,10 +50,31 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-    - name: Download dist artifact
+    - name: Download artifact dist
       uses: actions/download-artifact@v2
       with:
         name: dist
-    - name: Upload to S3
-      run: ls -la
-    - run: aws s3 ls
+    - name: Delete s3 bucket content
+      run: aws s3 rm ${{ secrets.AWS_S3_BUCKET }} --recursive
+    - name: Upload everything but javascript files for now
+      run: aws s3 cp . ${{ secrets.AWS_S3_BUCKET }} --cache-control 'max-age=86400' --exclude "*.js" --recursive
+    - name: Upload javascript files
+      run: aws s3 cp . ${{ secrets.AWS_S3_BUCKET }} --exclude "*" --include "*.js" --cache-control 'max-age=86400' --content-type=application/javascript --recursive
+    - name: Update control-header tags of index.html
+      run: aws s3 cp --cache-control max-age=0 --content-type=text/html --metadata-directive=REPLACE ${{ secrets.AWS_S3_BUCKET }}/index.html ${{ secrets.AWS_S3_BUCKET }}/index.html
+    - name: Update control-header tags of service-worker.js
+      run: aws s3 cp --cache-control max-age=0 --content-type=application/javascript --metadata-directive=REPLACE ${{ secrets.AWS_S3_BUCKET }}/service-worker.js ${{ secrets.AWS_S3_BUCKET }}/service-worker.js
+
+  invalidate-cloudfront:
+    needs: deploy-to-s3
+    runs-on: ubuntu-latest
+    steps: 
+    # Configure AWS Cli
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    - name: Invalidate Cloudfront
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
