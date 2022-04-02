@@ -6,7 +6,7 @@ csv()
   // Read source CSV file
   .fromStream(
     request.get(
-      "https://raw.githubusercontent.com/carranco-sga/Mexico-COVID-19/master/Mexico_COVID19_CTD.csv"
+      "https://raw.githubusercontent.com/carranco-sga/Mexico-COVID-19_2022/main/Mexico_COVID19_CTD.csv"
     )
   )
   // Parse resulting JSON object
