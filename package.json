@@ -23,9 +23,9 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.4",
     "@vue/cli-plugin-eslint": "^5.0.4",
-    "@vue/cli-plugin-pwa": "^4.5.17",
-    "@vue/cli-plugin-router": "^4.5.17",
-    "@vue/cli-service": "^4.5.17",
+    "@vue/cli-plugin-pwa": "^5.0.4",
+    "@vue/cli-plugin-router": "^5.0.4",
+    "@vue/cli-service": "^5.0.4",
     "@vue/eslint-config-prettier": "^7.0.0",
     "babel-eslint": "^10.1.0",
     "csvtojson": "^2.0.10",
