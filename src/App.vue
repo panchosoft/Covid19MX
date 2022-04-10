@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="">
     <div id="nav">
       <Navbar />
     </div>
@@ -15,6 +15,9 @@
 body {
   background-color: #24292e !important;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%236d6d6d' fill-opacity='.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'/%3E%3C/svg%3E") !important;
+  /* height: 99vh !important; */
+  margin: 0 !important;
+  padding: 0 !important;
 }
 a {
   text-decoration: none !important;

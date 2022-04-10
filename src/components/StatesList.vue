@@ -1,30 +1,32 @@
 <template>
-  <div id="table-root" class="table-container container p-0">
-    <vue-good-table
-      :columns="columns"
-      :rows="rows"
-      :search-options="{
-        enabled: true,
-      }"
-      theme="nocturnal"
-      styleClass="vgt-table condensed"
-      @on-row-click="onRowClick"
-      @on-row-mouseenter="onRowMouseEnter"
-      :sort-options="{
+  <div id="table-root" class="table-container container-fluid p-0 m-0">
+    <vue-good-table :columns="columns" :rows="rows" :search-options="{
+      enabled: false,
+    }" theme="nocturnal" styleClass="vgt-table condensed" @on-row-click="onRowClick"
+      @on-row-mouseenter="onRowMouseEnter" :sort-options="{
         enabled: true,
         initialSortBy: { field: 'confirmed', type: 'desc' },
-      }"
-    >
+      }">
       <template slot="table-column" slot-scope="props">
-        <span class="text-break">
+        <span class="text-nowrap">
           {{ props.column.label }}
+        </span>
+      </template>
+      <template slot="table-row" slot-scope="props">
+        <span v-if="props.column.field == 'confirmed'">
+          <span>{{ props.row.confirmed.toLocaleString() }}</span>
+        </span>
+        <span v-else-if="props.column.field == 'deaths'">
+          <span>{{ props.row.deaths.toLocaleString() }}</span>
+        </span>
+        <span v-else>
+          {{ props.formattedRow[props.column.field] }}
         </span>
       </template>
       <div slot="emptystate">
         Fuente de datos no disponible.
       </div>
-    </vue-good-table>
-  </div>
+    </vue-good-table>  </div>
 </template>
 
 <script>
@@ -152,21 +154,25 @@ export default {
     font-size: 12px !important;
   }
 }
+
 @media (max-width: 1024px) {
   #table-root {
     margin-top: 10px;
   }
+
   table.vgt-table {
-    font-size: 14px !important;
+    font-size: 15px !important;
     border-collapse: collapse;
     line-height: 20px;
   }
+
   .vgt-table.nocturnal thead th {
-    font-size: 14px !important;
+    /* font-size: 14px !important; */
     font-style: normal;
     font-weight: normal;
   }
 }
+
 .grey-column {
   background-color: #55555556;
   border-bottom: 1px solid #555;
@@ -176,45 +182,55 @@ export default {
   border: 1px solid #24292e !important;
   background-color: #24292e !important;
 }
+
 .vgt-table.nocturnal tr:hover {
   background-color: #030303 !important;
   color: #da711c !important;
 }
+
 .vgt-table.nocturnal td {
   border-bottom: 1px solid #555;
   color: #c7ced8;
 }
+
 .vgt-table.nocturnal td:hover {
   border-bottom: 1px solid #555;
   color: #da711c !important;
 }
+
 table.vgt-table {
   font-size: 14px;
   border-collapse: collapse;
 }
+
 .vgt-wrap.nocturnal .vgt-global-search {
   border: 1px solid #24292e;
   background: #24292e;
 }
+
 .vgt-wrap.nocturnal .vgt-global-search__input .vgt-input,
 .vgt-wrap.nocturnal .vgt-global-search__input .vgt-select {
   color: #000;
   background-color: #ccc;
   border: 1px solid #212327;
 }
+
 .vgt-table.nocturnal thead th {
   color: #c7ced8;
   border-bottom: 1px solid #212327;
   background: #212327;
   font-size: 15px;
 }
+
 .vgt-global-search {
   padding: 0px !important;
 }
+
 .vgt-input,
 .vgt-select {
   height: 26px !important;
 }
+
 .vgt-table.condensed td,
 .vgt-table.condensed th.vgt-row-header {
   padding: 0.2em 0.5em 0.2em 0.5em;
