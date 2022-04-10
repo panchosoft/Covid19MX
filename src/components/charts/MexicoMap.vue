@@ -1,11 +1,10 @@
 <template>
-  <div id="MexicoMap" ref="MexicoMapDiv"></div>
+  <div id="MexicoMap" ref="MexicoMapDiv"  class="h-100"></div>
 </template>
 
 <style scoped>
 #MexicoMap {
   width: 100%;
-  height: 100% !important;
   min-height: 895px;
 }
 @media (max-width: 768px) {
