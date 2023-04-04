@@ -10,13 +10,13 @@
     "refresh-source": "node refresh-data.js"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "^4.10.29",
+    "@amcharts/amcharts4": "^4.10.35",
     "@amcharts/amcharts4-geodata": "^4.1.26",
-    "@popperjs/core": "^2.11.6",
-    "bootstrap": "^5.2.2",
-    "core-js": "^3.26.0",
+    "@popperjs/core": "^2.11.7",
+    "bootstrap": "^5.2.3",
+    "core-js": "^3.30.0",
     "register-service-worker": "^1.7.2",
-    "vue": "^2.7.13",
+    "vue": "^2.7.14",
     "vue-good-table": "^2.21.11",
     "vue-router": "^3.6.5"
   },
@@ -26,12 +26,12 @@
     "@vue/cli-plugin-pwa": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
-    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-prettier": "^7.1.0",
     "babel-eslint": "^10.1.0",
     "csvtojson": "^2.0.10",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.7.1",
     "request": "^2.88.2",
-    "vue-template-compiler": "^2.7.13"
+    "vue-template-compiler": "^2.7.14"
   }
 }
