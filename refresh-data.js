@@ -18,6 +18,7 @@ csv()
     var mx_timeline = [];
     var mx_total_timeline = [];
     var minStartDate = new Date("2020-02-28");
+    var EndDate = new Date("2022-08-17");
 
     var MexicoStatesKeyMap = {
       "MX-AGU": "AGU",
@@ -67,7 +68,7 @@ csv()
       currentDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
 
       // Only process records in the desired range
-      if (currentDate >= minStartDate) {
+      if (currentDate >= minStartDate && currentDate <= EndDate) {
         // Debug message
         console.log("Latest date in source file: " + currentDate);
 
@@ -118,7 +119,7 @@ csv()
       );
 
       // Only process records in the desired range
-      if (currentDate >= minStartDate) {
+      if (currentDate >= minStartDate && currentDate <= EndDate) {
         // Debug message
         console.log("Latest date in source file: " + currentDate);
 
