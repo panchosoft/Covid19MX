@@ -12,7 +12,7 @@
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.36",
     "@amcharts/amcharts4-geodata": "^4.1.26",
-    "@popperjs/core": "^2.11.7",
+    "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.2.3",
     "core-js": "^3.30.2",
     "register-service-worker": "^1.7.2",
