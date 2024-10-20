@@ -10,11 +10,11 @@
     "refresh-source": "node refresh-data.js"
   },
   "dependencies": {
-    "@amcharts/amcharts4": "^4.10.38",
-    "@amcharts/amcharts4-geodata": "^4.1.28",
+    "@amcharts/amcharts4": "^4.10.39",
+    "@amcharts/amcharts4-geodata": "^4.1.30",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
-    "core-js": "^3.37.0",
+    "core-js": "^3.38.1",
     "register-service-worker": "^1.7.2",
     "vue-good-table": "^2.21.11",
     "vue-router": "^3.6.5"
