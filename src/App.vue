@@ -55,7 +55,7 @@ a:hover {
   transition-timing-function: ease;
 }
 
-.fade-enter,
+.fade-enter-from,
 .fade-leave-active {
   opacity: 0;
 }

@@ -20,6 +20,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4lang_es_ES from "@amcharts/amcharts4/lang/es_ES";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { eventBus } from "@/eventBus";
 
 am4core.useTheme(am4themes_animated);
 am4core.options.onlyShowOnViewport = false;
@@ -43,7 +44,7 @@ export default {
       this.covid_mx_timeline = source;
 
       // Propagate data to states list
-      this.$root.$emit("sendSourceData", this.covid_mx_timeline);
+      eventBus.emit("sendSourceData", this.covid_mx_timeline);
 
       // Request detailed source data
       this.fetchData("/data/mx_total_timeline.json").then((_source) => {
@@ -77,10 +78,10 @@ export default {
     // Configures and load the map and charts
     loadMapAndChart() {
       // Enable communication with state list
-      this.$root.$on("rollOverState", (id) => {
+      eventBus.on("rollOverState", (id) => {
         rollOverCountry(polygonSeries.getPolygonById(id));
       });
-      this.$root.$on("selectState", (id) => {
+      eventBus.on("selectState", (id) => {
         selectCountry(polygonSeries.getPolygonById(id));
       });
 
@@ -1613,7 +1614,7 @@ export default {
   },
 
   // Dispose resources
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.container) {
       this.container.dispose();
       am4core.disposeAllCharts();

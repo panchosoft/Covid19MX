@@ -3,9 +3,9 @@ name: CI
 
 on:
   push:
-    branches: [ master]
+    branches: [ main]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,11 +19,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    - name: Use Node js v14
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v4
+    - name: Use Node js v22
+      uses: actions/setup-node@v4
       with:
-        node-version: 14
+        node-version: 22
         cache: 'npm'
     # Install project depedencies from package.json
     - run: npm install

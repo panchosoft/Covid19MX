@@ -1,52 +1,75 @@
 <template>
   <div id="table-root" class="table-container container-fluid p-0 m-0">
-    <vue-good-table :columns="columns" :rows="rows" :search-options="{
-      enabled: false,
-    }" theme="nocturnal" styleClass="vgt-table condensed" @on-row-click="onRowClick"
-      @on-row-mouseenter="onRowMouseEnter" :sort-options="{
-        enabled: true,
-        initialSortBy: { field: 'confirmed', type: 'desc' },
-      }">
-      <template slot="table-column" slot-scope="props">
-        <span class="text-nowrap">
-          {{ props.column.label }}
-        </span>
-      </template>
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'confirmed'">
-          <span>{{ props.row.confirmed.toLocaleString() }}</span>
-        </span>
-        <span v-else-if="props.column.field == 'deaths'">
-          <span>{{ props.row.deaths.toLocaleString() }}</span>
-        </span>
-        <span v-else>
-          {{ props.formattedRow[props.column.field] }}
-        </span>
-      </template>
-      <div slot="emptystate">
-        Fuente de datos no disponible.
-      </div>
-    </vue-good-table>  </div>
+    <table v-if="rows.length" class="states-table">
+      <thead>
+        <tr>
+          <th>Estado</th>
+          <th class="text-end grey-column sortable" @click="sortBy('confirmed')">
+            Confirmados
+            <span v-if="sortField === 'confirmed'" class="sort-arrow">{{
+              sortDirection === "desc" ? "▼" : "▲"
+            }}</span>
+          </th>
+          <th class="text-end sortable" @click="sortBy('deaths')">
+            Decesos
+            <span v-if="sortField === 'deaths'" class="sort-arrow">{{
+              sortDirection === "desc" ? "▼" : "▲"
+            }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="row in sortedRows"
+          :key="row.id"
+          @click="onRowClick(row)"
+          @mouseenter="onRowMouseEnter(row)"
+        >
+          <td>{{ row.state }}</td>
+          <td class="text-end grey-column">{{ row.confirmed.toLocaleString() }}</td>
+          <td class="text-end">{{ row.deaths.toLocaleString() }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div v-else class="empty-state p-2">Fuente de datos no disponible.</div>
+  </div>
 </template>
 
 <script>
-// import the styles
-import "vue-good-table/dist/vue-good-table.css";
-import { VueGoodTable } from "vue-good-table";
+import { eventBus } from "@/eventBus";
 
 export default {
   name: "StatesList",
-  components: {
-    VueGoodTable,
+  data: function () {
+    return {
+      rows: [],
+      sortField: "confirmed",
+      sortDirection: "desc",
+    };
+  },
+  computed: {
+    sortedRows() {
+      const direction = this.sortDirection === "desc" ? -1 : 1;
+      return [...this.rows].sort(
+        (a, b) => (a[this.sortField] - b[this.sortField]) * direction
+      );
+    },
   },
   mounted() {
     // Enable communication with map to receive source json data
-    this.$root.$on("sendSourceData", (json) => {
+    eventBus.on("sendSourceData", (json) => {
       this.copySourceData(json);
     });
   },
-
   methods: {
+    sortBy(field) {
+      if (this.sortField === field) {
+        this.sortDirection = this.sortDirection === "desc" ? "asc" : "desc";
+      } else {
+        this.sortField = field;
+        this.sortDirection = "desc";
+      }
+    },
     // Receive source json data
     copySourceData(sourceData) {
       // Validate source data
@@ -110,41 +133,16 @@ export default {
       }
     },
     // On state list click event
-    onRowClick: function (params) {
-      if (params && params.row) this.$root.$emit("selectState", params.row.id);
+    onRowClick: function (row) {
+      if (row) eventBus.emit("selectState", row.id);
 
       // Scroll to the map after selecting a state
       document.getElementById("app").scrollIntoView();
     },
     // On row mouse enter in state list
-    onRowMouseEnter: function (params) {
-      if (params && params.row)
-        this.$root.$emit("rollOverState", params.row.id);
+    onRowMouseEnter: function (row) {
+      if (row) eventBus.emit("rollOverState", row.id);
     },
-  },
-  data: function () {
-    return {
-      filter: "",
-      columns: [
-        { label: "ID", field: "id", hidden: true },
-        { label: "Estado", field: "state" },
-        {
-          label: "Confirmados",
-          field: "confirmed",
-          type: "number",
-          align: "right",
-          thClass: "grey-column",
-          tdClass: "grey-column",
-        },
-        {
-          label: "Decesos",
-          field: "deaths",
-          type: "number",
-          align: "right",
-        },
-      ],
-      rows: [],
-    };
   },
 };
 </script>
@@ -160,14 +158,12 @@ export default {
     margin-top: 10px;
   }
 
-  table.vgt-table {
+  .states-table {
     font-size: 15px !important;
-    border-collapse: collapse;
     line-height: 20px;
   }
 
-  .vgt-table.nocturnal thead th {
-    /* font-size: 14px !important; */
+  .states-table thead th {
     font-style: normal;
     font-weight: normal;
   }
@@ -175,64 +171,55 @@ export default {
 
 .grey-column {
   background-color: #55555556;
-  border-bottom: 1px solid #555;
 }
 
-.vgt-table.nocturnal {
+.states-table {
+  width: 100%;
   border: 1px solid #24292e !important;
   background-color: #24292e !important;
-}
-
-.vgt-table.nocturnal tr:hover {
-  background-color: #030303 !important;
-  color: #da711c !important;
-}
-
-.vgt-table.nocturnal td {
-  border-bottom: 1px solid #555;
-  color: #c7ced8;
-}
-
-.vgt-table.nocturnal td:hover {
-  border-bottom: 1px solid #555;
-  color: #da711c !important;
-}
-
-table.vgt-table {
   font-size: 14px;
   border-collapse: collapse;
 }
 
-.vgt-wrap.nocturnal .vgt-global-search {
-  border: 1px solid #24292e;
-  background: #24292e;
-}
-
-.vgt-wrap.nocturnal .vgt-global-search__input .vgt-input,
-.vgt-wrap.nocturnal .vgt-global-search__input .vgt-select {
-  color: #000;
-  background-color: #ccc;
-  border: 1px solid #212327;
-}
-
-.vgt-table.nocturnal thead th {
+.states-table thead th {
   color: #c7ced8;
   border-bottom: 1px solid #212327;
   background: #212327;
   font-size: 15px;
+  padding: 0.2em 0.5em;
+  text-align: left;
 }
 
-.vgt-global-search {
-  padding: 0px !important;
+.states-table th.sortable {
+  cursor: pointer;
+  user-select: none;
 }
 
-.vgt-input,
-.vgt-select {
-  height: 26px !important;
+.states-table .sort-arrow {
+  font-size: 0.7em;
 }
 
-.vgt-table.condensed td,
-.vgt-table.condensed th.vgt-row-header {
-  padding: 0.2em 0.5em 0.2em 0.5em;
+.states-table td {
+  border-bottom: 1px solid #555;
+  color: #c7ced8;
+  padding: 0.2em 0.5em;
+}
+
+.states-table tbody tr {
+  cursor: pointer;
+}
+
+.states-table tbody tr:hover {
+  background-color: #030303 !important;
+  color: #da711c !important;
+}
+
+.states-table tbody tr:hover td {
+  color: #da711c !important;
+}
+
+.empty-state {
+  color: #c7ced8;
+  background-color: #24292e;
 }
 </style>

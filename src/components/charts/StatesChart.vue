@@ -145,7 +145,7 @@ export default {
     },
   },
   // Dispose resources
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.chart) {
       this.chart.dispose();
     }

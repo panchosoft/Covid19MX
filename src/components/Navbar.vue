@@ -28,14 +28,14 @@
               <router-link
                 class="nav-link"
                 to="/"
-                @click.native="toggleNavbar()"
+                @click="toggleNavbar()"
                 >Inicio <span class="sr-only">(current)</span>
               </router-link>
             </li>
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                @click.native="toggleNavbar()"
+                @click="toggleNavbar()"
                 to="/statistics"
               >
                 Estad&iacute;sticas</router-link
@@ -44,7 +44,7 @@
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                @click.native="toggleNavbar()"
+                @click="toggleNavbar()"
                 to="/about"
                 >Acerca de</router-link
               >
